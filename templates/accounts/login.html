@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% load crispy_forms_tags %}
+
+{% block body %} 
+<br><br><br>
+<div class="container ">
+<div class="row ">
+  <div class="col-md-6 offset-md-3 bg-light shadow">
+    <h3 class="text-center">Giris Yap</h3>
+    <hr class= "bg-danger">
+
+    <form action="" method = "post" class="">
+        {% comment %} ma n in the midle gibi ataklardan korunmak icin csrf_token {% endcomment %}
+         {% csrf_token %} 
+        {{form | crispy }}
+        <br>
+        <button type = "submit" class = "btn btn-outline-danger w-100 ">Giris Yap</button>
+       
+    </form>
+    <hr class= "bg-dark">
+    <button type = "submit" class = "btn btn-danger w-100 ">Kayit Ol</button>
+     </div>
+    </div>
+</div>
+{% endblock body %}

@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block body %}
+{% load crispy_forms_tags %}
+
+
+
+
+<div class="container ">
+  <div class="row ">
+    <div class="col-md-6 offset-md-3 bg-light shadow">
+      <h3>Duyuru Olustur</h3>
+      <hr>
+       <form action="" method = "POST" enctype="multipart/form-data">
+         {% csrf_token %}
+         {{ announ_form.media }}
+         {{announ_form | crispy}}
+         <button type="submit"class ="btn btn-success">Olustur</button>
+         
+       </form>
+
+      </div>
+    </div>
+    </div>
+
+
+{% endblock body %}

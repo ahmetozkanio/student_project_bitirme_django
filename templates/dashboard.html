@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block body %}
+<div class="container">
+    <div class="row center">
+
+        
+
+    {% if lessons %}
+
+ 
+
+
+          {% for lesson  in lessons %}
+          <div class="col-sm mb-4 ">
+            
+          <div  class="card shadow" style="width: 18rem;">
+            <img class="card-img-top" src="{{lesson.image.url}}" alt="Card image cap">
+            <div  class="card-body ">
+
+              <h5 class="card-title">{{lesson.name}} </h5>
+              <span><small>{{lesson.teacher}}</small></span>
+              <p class="card-text">{{ lesson.description | truncatechars:25}}</p>
+              <a href="{% url 'lesson_detail' lesson.id %}" class="btn btn-primary">Ders Icerigi</a>
+              
+            </div>
+          </div>
+        </div>
+          {% endfor %}
+          
+       
+
+      </div>
+    </div>
+
+
+
+    {% else %}
+
+    <div class="alert alert-warning text-center">
+      Herhangi kayitli bir ders bulunmuyor
+     </div>
+  
+    {% endif %}
+ 
+
+{% endblock body %}

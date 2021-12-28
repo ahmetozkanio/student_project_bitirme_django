@@ -1,0 +1,291 @@
+{% extends "base.html" %}
+
+
+{% block body %}
+
+{% load crispy_forms_tags %}
+
+
+<div class="container-fluid shadow">
+  
+
+  <div class="row">
+
+      <!--User authenticated == student is add lesson-->
+    
+  
+      {% if lesson not in lesson_join %}
+      <div class= "alert alert-success text-center">Merhababar {{user.first_name}} {{user.last_name}} Derse Kayitli Degilsiniz.....</div>
+    
+      <div class="col-4">
+     
+  
+        {% else %}<!--User authenticated == student is add lesson-->
+    
+
+           
+      <div class="col-3">
+
+        <h5>Aktif Ogreciler</h5>
+           <!-- ONLINE STUDENTS -->
+           <div class="overflow-auto p-3 mb-3 mb-md-0 me-md-3 bg-light" style="max-width: 500px; max-height: 150px;">
+       
+        <ol class="list-group list-group-numbered">
+          <li class="list-group-item d-flex justify-content-between
+            align-items-start">
+            <div class="ms-2 me-auto">
+              <div class="fw-bold">Subheading</div>
+              Cras justo odio
+            </div>
+            <span class="badge bg-primary rounded-pill"></span>
+          </li>
+          <li class="list-group-item d-flex justify-content-between
+            align-items-start">
+            <div class="ms-2 me-auto">
+              <div class="fw-bold">Subheading</div>
+              Cras justo odio
+            </div>
+            <span class="badge bg-primary rounded-pill"></span>
+          </li>
+          <li class="list-group-item d-flex justify-content-between
+            align-items-start">
+            <div class="ms-2 me-auto">
+              <div class="fw-bold">Subheadinddg</div>
+              Cras justo odio
+            </div>
+            <span class="badge bg-primary rounded-pill"></span>
+          </li>
+        </ol>
+      </div>
+     
+      <!-- MESSAGES -->
+      <div class="overflow-auto p-3 mb-3 mb-md-end me-md-3 bg-light" style="max-width: 500px; max-height: 250px;">
+        <ul class="list-group list-group-flush">
+          {% for message in message_text %}
+          <li class="list-group-item"><b>{{message.user}} </b> <small>{{message.date}}</small> 
+          <br>
+          {{message.text}}
+          </li>
+  
+          {% endfor %}
+  
+        </ul>
+        
+      </div>
+      
+      <form method="post" enctype="multipart/form-data" >
+        {% csrf_token %}
+       
+        <div class="container">
+             <div class="row align-items-start ">
+              <div class="col">
+                {{message_form | crispy}}
+              </div>
+              <div class="col">
+                <button type="submit" class = "btn btn-primary" >İlet</button>
+  
+              </div>
+                
+            </div>
+   
+             </div>  
+   
+      </form>
+  {% endif %}<!--User authenticated == student is add lesson-->
+ 
+</div><!--COL-->
+
+  <!--Content BODY-->
+    <div class="col">
+      <div class="p-5 mb-4 bg-light rounded-3">
+        <div class="container-fluid py-5">
+          <h3 class="fs-5">{{lesson.name}}</h3>
+          <span><small>{{lesson.teacher}}</small></span>
+          <p class="col-md-8 fs-7">{{lesson.description}}</p>
+          {% if lesson not in lesson_join %}
+          <form action="{% url 'lesson_add' %}" method ="POST">
+            {% csrf_token %}
+            <input type="hidden" name ="user_id" value="{{user.id}}">
+            <input type="hidden" name ="lesson_id" value="{{lesson.id}}">		
+            <input type="submit" value ="Derse Kayit Ol"class="btn btn-outline-success">
+            
+          </form>
+          {% endif %}
+          
+        </div>
+      </div>
+    </div>
+
+    <!--User authenticated == student is add lesson-->
+    {% if lesson not in lesson_join %}
+    
+
+  
+    {% else %}<!--User authenticated == student is add lesson-->
+    <div class="col-2">
+      {% if attendances %}
+      <ul class="list-group">
+        {% comment %} <form action="{% url 'attendance_remove' %}"
+          method="POST">
+          {% csrf_token %}
+          <input type="hidden" name="attendance_id" value="{{attencances.id}}">
+          <input type="hidden" name="lesson_id" value="{{lesson.id}}">
+          <input type="submit" value="I AM SURE" class="btn btn-danger">
+
+        </form> {% endcomment %}
+        <a href="" class="btn btn-danger">Yoklamayi Kapat</a>
+
+        {% for attendance in attendances %}
+        <li class="list-group-item">
+          {{attendance.date}}
+        </li>
+        <li class="list-group-item">
+          {{attendance.date2}}
+        </li>
+        {% endfor %}
+      </ul>
+      {% else %}
+      <button type="button" class="btn btn-warning" data-bs-toggle="modal"
+        data-bs-target="#exampleModal">
+        Yoklama Aktif Et
+      </button>
+
+      {% endif %}
+
+
+
+
+      <br>
+      <h5>Tum Ogreciler</h5>
+      <div class="overflow-auto p-3 mb-3 mb-md-0 me-md-3 bg-light" style="max-width: 500px; max-height: 250px;">
+
+      <ol class="list-group list-group-numbered">
+        {% if lesson.students.all %}
+        {% for student in lesson.students.all %}
+
+        <li class="list-group-item d-flex justify-content-between
+          align-items-start">
+          <div class="ms-2 me-auto">
+
+            <div class="fw-bold">{{student.username}}</div>
+            {{student.last_name}}
+          </div>
+
+          <span class="badge bg-primary rounded-pill"></span>
+        </li>
+
+        {% endfor %}
+        {% else %}
+        <li class="list-group-item d-flex justify-content-between
+          align-items-start">
+          <div class="ms-2 me-auto">
+
+
+            Her hangi bir kayit yok
+          </div>
+
+        </li>
+
+
+
+        {% endif %}
+
+
+      </ol>
+    </div>
+    </div><!--col-->
+    {% endif %} <!--User authenticated == student is add lesson-->
+
+  </div><!--Row-->
+    
+
+
+
+
+    <!--Attendance add Modal #################################################-->
+    <div class="modal fade"id="exampleModal" tabindex="-1"
+      aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Yoklama Olustur</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"
+              aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form method="post" enctype="multipart/form-data">
+              <!--DATE PICKER-->
+              {% csrf_token %}
+              <div class="row">
+                <div class="col-md-1 offset-md-2">
+                  <div class="input-group date" id="datetimepicker1"
+                    data-target-input="nearest">
+                    <div class="input-group-append"
+                      data-target="#datetimepicker1"
+                      data-toggle="datetimepicker">
+                      <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                      {{attendance_form | crispy}}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary"
+                data-bs-dismiss="modal">Kapat</button>
+              <button type="submit" class="btn btn-success">Olustur</button>
+            </div>
+          </form>
+
+          <script>
+      $(function () {
+        $("#datetimepicker1").datetimepicker({
+          format: 'DD/MM/YYYY HH:mm',
+        });
+      });
+    </script>
+        </div>
+      </div>
+      <!--Attendance add Modal #################################################-->
+      <!--Attendance Remove Modal #################################################-->
+      <div class="modal fade"id="exampleModal" tabindex="-1"
+        aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Yoklama Olustur</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal"
+                aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <form method="post" enctype="multipart/form-data">
+                <!--DATE PICKER-->
+                {% csrf_token %}
+                <div class="row">
+                  <div class="col-md-1 offset-md-2">
+                    <div class="input-group date" id="datetimepicker1"
+                      data-target-input="nearest">
+                      <div class="input-group-append"
+                        data-target="#datetimepicker1"
+                        data-toggle="datetimepicker">
+                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                        {{attendance_form | crispy}}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary"
+                  data-bs-dismiss="modal">Iptal et</button>
+                <button type="submit" class="btn btn-success">Sonlandir</button>
+              </div>
+            </form>
+
+
+          </div>
+        </div>
+        <!--Attendance Remove Modal #################################################-->
+        {% endblock body %}

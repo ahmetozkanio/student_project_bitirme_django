@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block body %}
+
+<div class="container shadow">
+    <div class="row">
+     <div class="col-3"></div>
+
+     <div class="col-6">
+         
+          {{obj.lesson}} -Yoklama Almak Icin Okutunuz Ve Kimliginizi Dogrulayiniz
+        <br>
+
+    
+        <img src="{{obj.qr_code.url}}" alt="">
+     </div>
+    <div class="col-3"></div>
+
+</div><!--Row-->
+</div><!--Container-->
+{% endblock body %}

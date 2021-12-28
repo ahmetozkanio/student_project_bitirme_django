@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block body %}
+{% load crispy_forms_tags %}
+
+
+
+
+<div class="container shadow">
+  <div class="row ">
+    <div class="col-2"></div>
+    <div class="col-8">
+<br>
+      <h3>{{announcement.title}} Duyurusu</h3>
+      <p>
+        
+      </p>
+      <dl class="row">
+        <dt class="col-sm-3">Ders</dt>
+        <dd class="col-sm-9">{{announcement.lesson}}</dd>
+        <dt class="col-sm-3">Yayın Tarihi</dt>
+        <dd class="col-sm-9">{{announcement.date }}</dd>
+
+        <dt class="col-sm-3">Yayınlayan Kişi</dt>
+        <dd class="col-sm-9">{{announcement.lesson.teacher }}</dd>
+        <dt class="col-sm-3">Başlık</dt>
+        <dd class="col-sm-9">{{announcement.title}}</dd>
+          <dt class="col-sm-3">Açıklama</dt>
+        <dd class="col-sm-9">
+          <p>{{announcement.description | safe }}</p>
+          
+        </dd>
+   
+      
+       
+      
+      </dl>
+    </div>
+
+
+
+    <div class="col-2">  
+      <br>   <a href="{% url 'announcement_update' announcement.id %}" class="btn btn-primary">
+      Guncelle</a>
+      <a href="{% url 'announcement_delete' announcement.id %}" class="btn btn-danger">
+        Sil</a></div>
+
+
+
+
+    </div>
+    </div>
+
+
+{% endblock body %}

@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block body %}
+<form>
+    <!-- Email input -->
+    <div class="form-outline mb-4">
+      <input id="form1Example1" class="form-control" />
+      <label class="form-label" for="form1Example1">Email address</label>
+    </div>
+  
+    <!-- Password input -->
+    <div class="form-outline mb-4">
+      <input type="password" id="form1Example2" class="form-control" />
+      <label class="form-label" for="form1Example2">Password</label>
+    </div>
+  
+
+ 
+  
+    <!-- Submit button -->
+    <button type="submit" class="btn btn-primary btn-block">Sign in</button>
+  </form>
+
+                    <div class="tab-pane active" id="Login">
+                        <form method="POST" role="form" class="form-horizontal">
+                            {% csrf_token %}
+
+                            {% if messages %}
+                            {% for message in messages %}
+                            <div class="alert alert-{{message.tags}}">
+
+                                {{message}}
+                            </div>
+                            {% endfor %}
+
+                            {% endif %}
+
+                            <div class="form-group">
+                                <div class="col-sm-12">
+                                    {{form.username}}
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-12">
+                                    {{form.password}}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-10">
+                                    <input type="submit" value="Submit" class="btn btn-light btn-radius btn-brd grd1">
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+               
+
+{% endblock body %}
