@@ -2,10 +2,13 @@ from django.db import models
 from django.contrib.auth.models import User
 from ckeditor.fields import RichTextField
 # Create your models here.
-# import qrcode
-# from io import BytesIO
-# from django.core.files import File
-# from PIL import Image, ImageDraw
+#qr
+import qrcode
+from io import BytesIO
+from django.core.files import File
+from PIL import Image, ImageDraw
+
+
 
 class Lesson(models.Model):
     
@@ -21,27 +24,28 @@ class Lesson(models.Model):
         return self.name
 
 class Attendance(models.Model):
+    id = models.BigAutoField(primary_key=True)
     lesson = models.ForeignKey(Lesson,on_delete=models.CASCADE,related_name='attendance_lesson')
     user_joined= models.ManyToManyField(User,blank=True,related_name="attendance_joined")
     date = models.DateTimeField()
     date2 = models.DateTimeField()
-    date_now = models.DateTimeField(auto_now=True)
+    date_now = models.DateTimeField(auto_now=True,unique=True)
     avaliable = models.BooleanField(default=True)
 
     qr_code = models.ImageField(upload_to='qr_codes',blank=True)
+    qr_url=models.URLField(blank=True,null=True)
 
-
-    # def save(self,*args,**kwargs):
-    #     qrcode_img = qrcode.make(self.lesson)
-    #     canvas = Image.new('RGB',(290,290),"white")
-    #     draw = ImageDraw.Draw(canvas)
-    #     canvas.paste(qrcode_img)
-    #     fname = f'qr_code-{self.lesson}.png'
-    #     buffer = BytesIO()
-    #     canvas.save(buffer,'PNG')
-    #     self.qr_code.save(fname,File(buffer),save=False)
-    #     canvas.close()
-    #     super().save(*args,**kwargs)
+    def save(self, *args, **kwargs):
+        qrcode_img = qrcode.make(self.qr_url)
+        canvas = Image.new('RGB',(400, 400), 'white')
+        draw = ImageDraw.Draw(canvas)
+        canvas.paste(qrcode_img)
+        fname = f'qr_code-(self.lesson)'+'.png'
+        buffer = BytesIO()
+        canvas.save(buffer,'PNG')
+        self.qr_code.save(fname,File(buffer),save=False)
+        canvas.close()
+        super().save(*args, **kwargs)
 
 class Announcement(models.Model):
     lesson = models.ForeignKey(Lesson,on_delete=models.CASCADE)

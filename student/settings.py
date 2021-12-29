@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-6f)l685%m%%^1h=#xi*!1gu=6-4u_73=uw)84zf)#yqm&q)c!0
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["www.ahmetozkan.com","127.0.0.1"]
 
 
 # Application definition
@@ -44,7 +44,7 @@ INSTALLED_APPS = [
     'pages',
     'crispy_forms',
     'ckeditor',
-    'qr_code',
+   
 
 ]
 

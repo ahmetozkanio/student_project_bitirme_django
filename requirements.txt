@@ -3,7 +3,6 @@ Django==4.0
 django-ckeditor==6.2.0
 django-crispy-forms==1.13.0
 django-js-asset==1.2.2
-django-qr-code==3.0.0
 Pillow==8.4.0
 segno==1.4.1
 sqlparse==0.4.2

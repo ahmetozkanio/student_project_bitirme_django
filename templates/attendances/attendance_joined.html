@@ -1,0 +1,30 @@
+
+{% extends "base.html" %}
+
+{% load crispy_forms_tags %}
+
+{% block body %} 
+<br><br><br>
+<div class="container ">
+<div class="row ">
+  <div class="col-md-6 offset-md-3 bg-light shadow">
+    <h3 class="text-center">Giris Yap</h3>
+    <hr class= "bg-danger">
+
+
+
+<form action="{% url 'attendance_add' %}" method ="POST">
+    {% csrf_token %}
+    <input type="hidden" name ="user_id" value="{{user.id}}">
+    <input type="hidden" name ="attendance_id" value="{{attendance.id}}">
+    <input type="hidden" name ="lesson_id" value="{{lesson.id}}">		
+
+    <input type="submit" value ="Yoklamaya Katil"class="btn btn-outline-success">
+  </form>
+
+  <hr class= "bg-dark">
+  <button type = "submit" class = "btn btn-danger w-100 ">Kayit Ol</button>
+   </div>
+  </div>
+</div>
+{% endblock body %}

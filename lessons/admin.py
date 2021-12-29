@@ -14,6 +14,8 @@ class AttendanceAdmin(admin.ModelAdmin):
     list_display = ('lesson','date','date2','date_now','avaliable')
     list_filter = ('avaliable',)
     search_fields = ('lesson',"date_now")
+
+    
 @admin.register(Message)
 class MessageAdmin(admin.ModelAdmin):
     list_display = ('lesson','user','date')

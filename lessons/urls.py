@@ -14,6 +14,9 @@ urlpatterns = [
     path("announcement-add/",views.announcement_add,name = 'announcement_add'),
     path("announcement-update/<int:announcement_id>",views.announcement_update,name = 'announcement_update'),
     path("announcement-delete/<int:announcement_id>",views.announcement_delete,name = 'announcement_delete'),
-    path("qr/<int:attendance_id>",views.qr_site,name = 'qr'),
+    path("attendance//<int:attendance_id>/qr",views.qr_site,name = 'qr'),
 
+    path('lesson/<int:lesson_id>/attendance/<int:attendance_id>',views.attendance_add,name="attendance_add"),
+
+    # path("attendance/<int:attendance_id>/login",views.attendance_user_joined,name="attendance_user_joined"),
 ]

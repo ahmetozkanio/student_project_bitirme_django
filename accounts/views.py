@@ -3,8 +3,10 @@ from django.contrib.auth import authenticate, login as auth_login, logout as aut
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.shortcuts import redirect, render
-from .forms import LoginForm, RegisterForm
 
+from lessons.views import attendance_add
+from .forms import LoginForm, RegisterForm
+from lessons.models import Attendance
 # Create your views here.
 
 
@@ -67,3 +69,32 @@ def user_dashboard(request):
     }
     return render(request,'dashboard.html',context)
 
+
+
+def attendance_joined(request,lesson_id,attendance_id):
+
+    if request.method == 'POST':
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password']
+            user = authenticate(request, username=username,
+                                        password=password)
+
+            if user is not None:
+                if user.is_active:
+                    auth_login(request,user)
+                    user_id = user.id
+                    # attendance_add(request,lesson_id,attendance_id)
+                    return redirect('attendance_add' , lesson_id=lesson_id, attendance_id=attendance_id )
+
+                else:
+                    messages.info(request, 'Disabled Account')
+
+            else:
+                messages.info(request, 'Check Your Username and Password')
+
+    else:
+        form = LoginForm()
+
+    return render(request, 'attendances/attendance_user_login.html', {'form':form,'lesson_id':lesson_id,'attendance_id':attendance_id})

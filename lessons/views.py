@@ -1,9 +1,11 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib import messages
+import lessons
 from lessons.models import Announcement, Attendance, Lesson, Message
 from django.contrib.auth.models import User
 from lessons.forms import AnnouncementForm, AttendanceForm, MessageForm
+from student.settings import ALLOWED_HOSTS
 
 
 # Create your views here.
@@ -31,17 +33,26 @@ def lesson_detail(request,lesson_id):
     attendance_form = AttendanceForm(request.POST or None)
     message_form = MessageForm(request.POST or None)
     message_text = Message.objects.all().filter(lesson = lesson_id)
+
+
     if message_form.is_valid():
         message = message_form.save(commit=False)
         message.lesson = lesson
         message.user = request.user
         message.save()
+
+
+
     if attendance_form.is_valid():
+
         attendance = attendance_form.save(commit=False)
-        # Hangi Kullanici Giris yapmissa
         attendance.lesson = lesson
         attendance.save()
+        attendance.qr_url =str(ALLOWED_HOSTS[1])+"/accounts/lesson/"+str(lesson_id)+"/attendance/"+str(attendance.id) + "/login/"
+        attendance.save()
         messages.success(request,"Yoklama Olusturuldu") 
+
+
     if request.user.is_authenticated:
         lesson_join = current_user.lesson_joined.all()
     else:
@@ -65,6 +76,31 @@ def lesson_add(request):
     messages.success(request,"Derse Kayit Oldunuz.") 
     lesson.students.add(user)
     return redirect('dashboard')
+
+
+def attendance_add(request,lesson_id,attendance_id):
+    
+    # if(attendance_id_url != None):
+    #     attendance_id = request.POST['attendance_id']
+    #     user_id = request.POST["user_id"]   
+    # else:
+    # attendance_id= attendance_id_url
+    user_id = request.user.id
+       
+    #lesson_id = request.POST["lesson_id"]
+    
+    
+    attendance = Attendance.objects.get(id=attendance_id)
+    lesson = attendance.lesson
+    user = lesson.students.get(id = user_id)
+    attendance.user_joined.add(user)
+    
+
+    
+    messages.success(request,"Ders :" +lesson.name+" yoklamaniz alindi.") 
+    return redirect("index")
+
+
 
 def attendance_list(request):
     current_user = request.user
@@ -148,6 +184,10 @@ def announcement_delete(request, announcement_id):
 
 
 def qr_site(request,attendance_id):
+    
+
+
+
     name = "Hosgeldin Yoklaman Alinmistir..."
     obj = Attendance.objects.get(id = attendance_id )
     context = {
