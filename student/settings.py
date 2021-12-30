@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-6f)l685%m%%^1h=#xi*!1gu=6-4u_73=uw)84zf)#yqm&q)c!0
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["www.ahmetozkan.com","127.0.0.1"]
+ALLOWED_HOSTS = ["www.ahmetozkan.com","127.0.0.1","10.0.3.2"]
 
 
 # Application definition
@@ -42,15 +42,20 @@ INSTALLED_APPS = [
     'lessons',
     'events',
     'pages',
+    
     'crispy_forms',
     'ckeditor',
-   
 
+    'rest_framework',
+    "corsheaders",
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+
+    "corsheaders.middleware.CorsMiddleware",
+    
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -149,3 +154,6 @@ CKEDITOR_CONFIGS = {
 }
 
 CKEDITOR_UPLOAD_PATH = "media/"
+
+
+CORS_ALLOW_ALL_ORIGINS = True
