@@ -157,3 +157,7 @@ CKEDITOR_UPLOAD_PATH = "media/"
 
 
 CORS_ALLOW_ALL_ORIGINS = True
+
+REST_FRAMEWORK = {
+    'DATETIME_FORMAT': "%d-%m-%Y %H:%M",
+}

@@ -1,13 +1,27 @@
+from django.contrib.auth.models import User
 from django.shortcuts import render
 # Create your views here.
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
 import api
-from .serializers import AttendanceSerializer, LessonSerializer, MessageSerializer
+from .serializers import AttendanceSerializer, LessonSerializer, MessageSerializer, UserSerializer
 from lessons.models import Lesson, Attendance, Message
 
 from api import serializers
+
+
+
+#USER ##################################
+
+@api_view(['GET'])
+def getUsers(request):
+    users = User.objects.all()
+    serializer = UserSerializer(users,many= True)
+    return Response(serializer.data)
+
+#USER ##################################
+
 
 
 @api_view(['GET'])
@@ -51,6 +65,7 @@ def deleteLesson(request,id):
     lesson = Lesson.objects.get(id =id)
     lesson.delete()
     return Response("Ders silindi!")
+
 
 
 @api_view(['GET'])
