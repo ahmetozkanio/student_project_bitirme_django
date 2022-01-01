@@ -5,7 +5,8 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
 import api
-from .serializers import AttendanceSerializer, LessonSerializer, MessageSerializer, UserSerializer
+from events.models import Event
+from .serializers import AttendanceSerializer, EventSerializer, LessonSerializer, MessageSerializer, UserSerializer
 from lessons.models import Lesson, Attendance, Message
 
 from api import serializers
@@ -23,6 +24,13 @@ def getUsers(request):
 #USER ##################################
 
 
+#EVENT######################
+@api_view(['GET'])
+def getEvents(request):
+    events = Event.objects.all()
+    serializer = EventSerializer(events,many= True)
+    return Response(serializer.data)
+#EVENT######################
 
 @api_view(['GET'])
 def getLessons(request):

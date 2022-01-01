@@ -2,8 +2,8 @@
 from django.contrib.auth.models import User
 from rest_framework.serializers import ModelSerializer
 from lessons.models import Attendance, Lesson, Message
+from events.models import Event
 from rest_framework import serializers
-
 
 
 class UserSerializer(ModelSerializer):
@@ -24,8 +24,17 @@ class AttendanceSerializer(ModelSerializer):
     class Meta:
         model = Attendance
         fields = ['id', 'lesson', 'user_joined', 'date', 'date2', 'avaliable']
+
+
 class MessageSerializer(ModelSerializer):
     class Meta:
         model = Message
         fields = '__all__'
 
+class EventSerializer(ModelSerializer):
+    teacher = UserSerializer(many=False)
+    students = UserSerializer(many=True)
+   
+    class Meta:
+        model = Event
+        fields = '__all__'

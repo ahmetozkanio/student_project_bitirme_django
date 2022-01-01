@@ -4,6 +4,8 @@ from . import views
 urlpatterns = [
      #User#
      path('users/',views.getUsers),
+     #Event#
+     path('events/',views.getEvents),
 
 
      path('lessons/',views.getLessons),
