@@ -16,7 +16,9 @@ urlpatterns = [
      #Attendance#
      path('attendances/',views.getAttendances),
      #Message#
-     path('message/<int:id>',views.getMessages),
+     path('lesson/<int:lesson_id>/messages/',views.getMessage),
+     path('messages/',views.getMessages),
+
 
 
 

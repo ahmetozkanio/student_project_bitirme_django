@@ -27,6 +27,7 @@ class AttendanceSerializer(ModelSerializer):
 
 
 class MessageSerializer(ModelSerializer):
+    user = UserSerializer(many=False)
     class Meta:
         model = Message
         fields = '__all__'

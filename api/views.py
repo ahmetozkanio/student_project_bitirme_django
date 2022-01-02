@@ -83,7 +83,14 @@ def getAttendances(request):
     return Response(serializer.data)
 
 @api_view(['GET'])
-def getMessages(request,id):
-    messages = Message.objects.get(id=id)
-    serializer = MessageSerializer(messages,many= False)
+def getMessage(request,lesson_id):
+    
+    messages = Message.objects.filter(lesson__id =lesson_id)
+    serializer = MessageSerializer(messages,many= True)
+    return Response(serializer.data)
+@api_view(['GET'])
+def getMessages(request):
+    
+    messages = Message.objects.all()
+    serializer = MessageSerializer(messages,many= True)
     return Response(serializer.data)

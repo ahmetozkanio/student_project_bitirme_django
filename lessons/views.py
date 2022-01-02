@@ -184,10 +184,6 @@ def announcement_delete(request, announcement_id):
 
 
 def qr_site(request,attendance_id):
-    
-
-
-
     name = "Hosgeldin Yoklaman Alinmistir..."
     obj = Attendance.objects.get(id = attendance_id )
     context = {
