@@ -39,10 +39,20 @@ class CustomAuthToken(ObtainAuthToken):
         user = serializer.validated_data['user']
         token, created = Token.objects.get_or_create(user=user)
         return Response({
+            'statusCode':status.HTTP_200_OK,
+            'success':True,
+            'code':"basic-auth",
+            'message':"Credential is valid",
+            'data':{
             'token': token.key,
             'user_id': user.pk,
             'email': user.email,
-            'username':user.username
+            'username':user.username,
+            'first_name':user.first_name,
+            'last_name':user.last_name,
+            }
+        
+
             
         })
 
