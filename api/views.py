@@ -10,11 +10,11 @@ from rest_framework import generics
 from rest_framework import permissions
 import api
 from events.models import Event
-from .serializers import AttendanceSerializer, EventSerializer, LessonSerializer, MessageSerializer, MessagesSerializer, UserSerializer
+from .serializers import AttendanceSerializer, EventSerializer, LessonAddSerializer, LessonSerializer, MessageAddSerializer, MessagesSerializer, UserSerializer
 from lessons.models import Lesson, Attendance, Message
 
 from api import serializers
-
+from rest_framework.parsers import JSONParser 
 
 
 #USER ##################################
@@ -74,25 +74,21 @@ class EventList(APIView):
 #EVENT######################
 
 
-class LessonList(APIView):
 
 
-    def get(self,request,format=None):
-        lessons = Lesson.objects.all()
-        serializer = LessonSerializer(lessons,many= True)
-        return Response(serializer.data)
+@api_view(['GET'])
+def getLessons(request):
+    lessons = Lesson.objects.all()
+    serializer = LessonSerializer(lessons,many= True)
+    return Response(serializer.data)
 
-    
-    def post(self,request,format=None):
-        data = request.data
-
-        lesson = Lesson.objects.create(
-            teacher = data['teacher'],
-            name = data['name'],
-            description = data['description'] 
-        )
-        serializer = LessonSerializer(lesson, many=False)
-        return Response(serializer.data)
+@api_view(['POST'])
+def postLesson(request):
+    serializer = LessonAddSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class LessonDetail(APIView):
 
@@ -165,20 +161,16 @@ class AttendanceList(APIView):
 #     return Response(serializer.data)
 
 
+@api_view(['POST'])
+def postMessage(request):
+    serializer = MessageAddSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data,status=status.HTTP_201_CREATED)
+    return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
 
-class MessageList(APIView):
-
-   
-    def post(self,request,format=None):
-        serializer = MessageSerializer(data=request.data)
-        if serializer.is_valid():
-            
-            serializer.save()
-            return Response(serializer.data,status=status.HTTP_201_CREATED)
-        return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
-
-    def perform_create(self, serializer):
-        serializer.save(user=self.request.user)
+    # def perform_create(self, serializer):
+    #     serializer.save(user=self.request.user)
 
 class MessageDetail(APIView):
 

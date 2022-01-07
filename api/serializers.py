@@ -1,6 +1,7 @@
 
 from django.contrib.auth.models import User
 from django.db.models.base import Model
+from rest_framework.fields import ReadOnlyField
 from rest_framework.serializers import ModelSerializer
 from lessons.models import Attendance, Lesson, Message
 from events.models import Event
@@ -54,14 +55,21 @@ class UserSerializer(ModelSerializer):
         fields = '__all__'
 
 
+class LessonAddSerializer(ModelSerializer):
 
-class LessonSerializer(ModelSerializer):
-
-    students = UserSerializer(many=True)
     class Meta:
         model = Lesson
         fields = '__all__'
 
+class LessonSerializer(ModelSerializer):
+
+    students = UserSerializer(many=True)
+    
+    
+    class Meta:
+        model = Lesson
+        fields = '__all__'
+        
 class AttendanceSerializer(ModelSerializer):
    
     lesson = LessonSerializer(many=False)
@@ -77,7 +85,7 @@ class MessagesSerializer(ModelSerializer):
         model = Message
         fields = '__all__'
         
-class MessageSerializer(ModelSerializer):
+class MessageAddSerializer(ModelSerializer):
  
    
     class Meta:
