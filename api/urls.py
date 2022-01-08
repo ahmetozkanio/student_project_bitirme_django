@@ -22,6 +22,9 @@ urlpatterns = [
      #Message#
      path('lesson/<int:lesson_id>/messages/',views.MessageDetail.as_view()),
      path('messages/',views.postMessage),
+     #announcement#
+     path('announcements/',views.AnnouncementList.as_view()),
+
 
 
 
