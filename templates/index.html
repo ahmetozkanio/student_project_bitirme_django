@@ -9,7 +9,7 @@
     <h1>Merhaba Ahmet Ozkan Bitirme Projesi 1   </h1>
     <p class="lead">Bu Proje Django ile yazilmistir.</p>
 
-
+    {% if request.user.is_staff  %} checked" {% endif %}
   </main>
 
 

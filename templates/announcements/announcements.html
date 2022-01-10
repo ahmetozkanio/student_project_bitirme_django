@@ -5,8 +5,13 @@
 
 <div class="container shadow">
     <div class="row">
-<a href="{% url 'announcement_add' %}" class="btn btn-warning">Duyuru Oluştur</a>
-<hr>
+      {% if request.user.is_authenticated  %}
+      
+      {% if request.user.is_staff %}
+<a href="{% url 'announcement_add' %}" class="btn btn-warning">Duyuru Oluştur</a><hr>
+{% endif %}
+{% endif %}
+
         
         <div class="col">
           
@@ -22,8 +27,13 @@
                     <th scope="col">Başlık</th>
 
                     <th scope="col">Detay</th>
+                    {% if request.user.is_authenticated  %}
+      
+                    {% if request.user.is_staff %}
                     <th scope="col">Guncelle</th>
                     <th scope="col">Sil</th>
+                    {% endif %}
+                    {% endif %}
 
                   </tr>
                 </thead>
@@ -42,10 +52,17 @@
                     
                     <td><a href="{% url 'announcement_detail' announcement.id %}" class="btn btn-success">
                         Detaya Git</a></td>
+                        {% if request.user.is_authenticated  %}
+                        {% if request.user == announcement.lesson.teacher %}
+                        {% if request.user.is_staff %}
                         <td><a href="{% url 'announcement_update' announcement.id %}" class="btn btn-primary">
                           Guncelle</a></td>
                           <td><a href="{% url 'announcement_delete' announcement.id %}" class="btn btn-danger">
                             Sil</a></td>
+                            {% endif %}
+
+                            {% endif %}
+                            {% endif %}
                   </tr>
                
                     {% endfor %}

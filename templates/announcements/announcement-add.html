@@ -12,6 +12,11 @@
     <div class="col-md-6 offset-md-3 bg-light shadow">
       <h3>Duyuru Olustur</h3>
       <hr>
+
+      {% if request.user.is_authenticated  %}
+      
+      {% if request.user.is_staff %}
+      
        <form action="" method = "POST" enctype="multipart/form-data">
          {% csrf_token %}
          {{ announ_form.media }}
@@ -19,7 +24,14 @@
          <button type="submit"class ="btn btn-success">Olustur</button>
          
        </form>
+       {% else %}
+       <p>Bu yetkiye sadece ogretmenler sahiptir..</p>
+       {% endif %}
 
+       {% else %}
+     
+       <p>Bu alana erismek icin giris yapmaniz gerekli..</p>
+       {% endif %}
       </div>
     </div>
     </div>

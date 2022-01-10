@@ -9,6 +9,7 @@
         <div class="col">
             <H1 >Tüm Yoklamalar</H1>
         
+        
             <table class="table table-striped table-hover">
                 <thead>
                   <tr>
@@ -22,14 +23,25 @@
          
                     <th scope="col">Aktiflik</th>
                     <th scope="col">Qr Kod</th>
+                  
+      
+                    {% if request.user.is_staff %}
                     <th scope="col">Detay</th>
+                    <th scope="col">Sonlandir</th>
+
+{% endif %}
 
 
                   </tr>
                 </thead>
-                <tbody>
+                <tbody> 
+                  
                     {% for attendance in attendances %}
                    
+                    
+                 
+                   
+             
                   <tr>
                       
                     <th scope="row"> {{attendance.id}}</th>
@@ -38,7 +50,7 @@
                     <td>{{attendance.date_now}}</td>
                     <td>{{attendance.user_joined.count}}</td>
                     <td>{{attendance.lesson.students.count}}</td>
-        
+
 
 
                     {% if attendance.avaliable %}
@@ -54,14 +66,24 @@
                     </td>
                     <td><span class="badge bg-danger rounded-pill">Qr Kapandi</span></td>
                     {% endif %}
-                    
+                  
+                    {% if request.user == attendance.lesson.teacher  %}
+      
+                    {% if request.user.is_staff %}
                     <td><a href="{% url 'attendance_detail' attendance.id %}" class="btn btn-success">
                         Detaya Git</a></td>
                         
+                  
+
+                   <td><a href="{% url 'attendance_remove' attendance_id=attendance.id %}" class="btn btn-warning">
+                        Kapat</a></td>
+                       
+                        {% endif %}
+                        {% endif %}
                   </tr>
-               
-                    {% endfor %}
                 
+                  {% endfor %}
+                    
                 </tbody>
               </table>
 

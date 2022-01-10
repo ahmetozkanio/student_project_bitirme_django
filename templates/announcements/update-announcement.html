@@ -13,6 +13,9 @@
         <br>
       <h3>Duyuru Guncelle</h3>
       <hr>
+      {% if request.user.is_authenticated  %}
+      
+      {% if request.user.is_staff %}
        <form action="" method = "POST" enctype="multipart/form-data">
          {% csrf_token %}
          {{ form.media }}
@@ -20,7 +23,8 @@
          <button type="submit"class ="btn btn-success">Guncelle</button>
          
        </form>
-
+{% endif %}
+{% endif %}
       </div>
     </div>
     </div>

@@ -73,13 +73,14 @@
         
       </div>
       
-      <form method="post" enctype="multipart/form-data" >
+      <form action="" method="post" enctype="multipart/form-data" >
         {% csrf_token %}
        
         <div class="container">
              <div class="row align-items-start ">
               <div class="col">
                 {{message_form | crispy}}
+                
               </div>
               <div class="col">
                 <button type="submit" class = "btn btn-primary" >İlet</button>
@@ -125,30 +126,35 @@
     <div class="col-2">
       {% if attendances %}
       <ul class="list-group">
-        {% comment %} <form action="{% url 'attendance_remove' %}"
-          method="POST">
-          {% csrf_token %}
-          <input type="hidden" name="attendance_id" value="{{attencances.id}}">
-          <input type="hidden" name="lesson_id" value="{{lesson.id}}">
-          <input type="submit" value="I AM SURE" class="btn btn-danger">
-
-        </form> {% endcomment %}
-        <a href="" class="btn btn-danger">Yoklamayi Kapat</a>
-
+   
+        {% if request.user  == lesson.teacher %}
+        
+        {% if request.user.is_staff %}
+        <button type="button" class="btn btn-danger" data-bs-toggle="modal"
+        data-bs-target="#removeModal">
+        Yoklama Sonlandir.
+      </button>
+{% endif %}
+{% endif %}
         {% for attendance in attendances %}
         <li class="list-group-item">
-          {{attendance.date}}
+          Baslangic : {{attendance.date}}
         </li>
         <li class="list-group-item">
-          {{attendance.date2}}
+          Kapanis : {{attendance.date2}}
         </li>
         {% endfor %}
       </ul>
       {% else %}
+      {% if request.user == lesson.teacher  %}
+      
+      {% if request.user.is_staff %}
       <button type="button" class="btn btn-warning" data-bs-toggle="modal"
         data-bs-target="#exampleModal">
         Yoklama Aktif Et
       </button>
+      {% endif %}
+      {% endif %}
 
       {% endif %}
 
@@ -252,7 +258,7 @@
       <!--Attendance add Modal #################################################-->
 
       <!--Attendance Remove Modal #################################################-->
-      <div class="modal fade"id="exampleModal" tabindex="-1"
+      <div class="modal fade"id="removeModal" tabindex="-1"
         aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
           <div class="modal-content">
@@ -262,23 +268,27 @@
                 aria-label="Close"></button>
             </div>
             <div class="modal-body">
-              <form method="post" enctype="multipart/form-data">
-                <!--DATE PICKER-->
-                {% csrf_token %}
-                <div class="row">
-                  <div class="col-md-1 offset-md-2">
-                    <div class="input-group date" id="datetimepicker1"
-                      data-target-input="nearest">
-                      <div class="input-group-append"
-                        data-target="#datetimepicker1"
-                        data-toggle="datetimepicker">
-                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+         
+           
+         
+ 
+          {% comment %} <input type="hidden" name="attendance_id" value="{{attendance_remove_avaliable_last.id}}">
+          <input type="hidden" name="lesson_id" value="{{lesson.id}}"> {% endcomment %}
+          <a class = "btn btn-danger" href="{% url 'attendance_remove'  attendance_id=attendance_remove_avaliable_last.id  %}">Kapat</a>
+         
+
+       
+                       
+{% comment %}                        
+             <form action="{% url 'lesson_add' %}" method ="POST">
+              {% csrf_token %}
+              <input type="hidden" name ="attendance_id" value="{{attendance.id}}">
+              <input type="hidden" name ="lesson_id" value="{{lesson.id}}">		
+              <input type="submit" value ="Derse Kayit Ol"class="btn btn-outline-success">
+            </form>
                         {{attendance_form | crispy}}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+                       {% endcomment %}
+          </div>
 
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary"

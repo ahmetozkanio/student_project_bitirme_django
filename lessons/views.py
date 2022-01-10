@@ -1,4 +1,8 @@
+from django.http import HttpResponseRedirect
+from django.urls import reverse
+
 from django.contrib.auth.decorators import login_required
+
 from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib import messages
 import lessons
@@ -6,6 +10,7 @@ from lessons.models import Announcement, Attendance, Lesson, Message
 from django.contrib.auth.models import User
 from lessons.forms import AnnouncementForm, AttendanceForm, MessageForm
 from student.settings import ALLOWED_HOSTS
+
 
 
 # Create your views here.
@@ -30,16 +35,21 @@ def lesson_detail(request,lesson_id):
     lessons = Lesson.objects.all().order_by('-date')
     lesson = Lesson.objects.get(id = lesson_id)
     attendances = Attendance.objects.all().filter(lesson = lesson_id, avaliable = True)
+    att_remove_last = Attendance.objects.last()
+    attendance_remove_avaliable_last= att_remove_last
+
     attendance_form = AttendanceForm(request.POST or None)
+    
     message_form = MessageForm(request.POST or None)
     message_text = Message.objects.all().filter(lesson = lesson_id)
-
+    
 
     if message_form.is_valid():
         message = message_form.save(commit=False)
         message.lesson = lesson
         message.user = request.user
         message.save()
+        return HttpResponseRedirect(reverse("lesson_detail", kwargs={'lesson_id': lesson_id}))
 
 
 
@@ -51,6 +61,11 @@ def lesson_detail(request,lesson_id):
         attendance.qr_url =str(ALLOWED_HOSTS[1])+"/accounts/lesson/"+str(lesson_id)+"/attendance/"+str(attendance.id) + "/login/"
         attendance.save()
         messages.success(request,"Yoklama Olusturuldu") 
+        return HttpResponseRedirect(reverse("lesson_detail", kwargs={'lesson_id': lesson_id}))
+
+    
+   
+
 
 
     if request.user.is_authenticated:
@@ -62,6 +77,7 @@ def lesson_detail(request,lesson_id):
         'lesson_join':lesson_join,
         'attendances':attendances,
         'attendance_form':attendance_form,
+        'attendance_remove_avaliable_last':attendance_remove_avaliable_last,
         'message_form':message_form,
         'message_text':message_text,
     }
@@ -104,7 +120,14 @@ def attendance_add(request,lesson_id,attendance_id):
 
 def attendance_list(request):
     current_user = request.user
-    attendances = Attendance.objects.all().order_by('-date_now')
+    lessons = current_user.lesson_joined.all()
+    
+    attendances = Attendance.objects.filter(lesson__in= lessons).order_by('-date_now') 
+
+    #Ogrencinin kayit oldugu kurslar
+    #manytomanyt related name = lesson_joined
+  
+
     if request.user.is_authenticated:
         joined = current_user.attendance_joined.all()
     else:
@@ -112,6 +135,7 @@ def attendance_list(request):
     context = {
         'attendances':attendances,
         'lesson_join' :joined,
+        'lessons':lessons
     }
     return render(request,'attendances/attendances.html',context)
 
@@ -125,16 +149,18 @@ def attendance_detail(request,attendance_id):
     return render(request,'attendances/attendance.html',context)
 
 
-def attendance_remove(request):
-    lesson = Lesson.objects.get(id = request.POST['lesson_id'])#lesson.html
-    attendance = Attendance.objects.get(lesson = lesson)
-    attendance(avaliable = False)
-    return redirect('lessons/lesson.html')
+def attendance_remove(request,attendance_id):
+
+    attendance = Attendance.objects.get(id =attendance_id)
+    attendance.avaliable =False
+    attendance.save()
+    return redirect('attendances')
 
 
 def announcement_add(request):
+  
     if request.method == 'POST':
-        form = AnnouncementForm(request.POST)
+        form = AnnouncementForm(request.POST,user =request.user)
         if form.is_valid():
             form.save()
             messages.success(request,"Duyuru Basariyla Olusturuldu.")
@@ -142,12 +168,14 @@ def announcement_add(request):
         else :
             messages.success(request,"Duyuru Olusturulamadi.")
     else:
-        form = AnnouncementForm()        
+        form = AnnouncementForm(user=request.user)        
     return render(request,'announcements/announcement-add.html',{'announ_form':form})
 
 def announcement_list(request):
     current_user = request.user
-    announcements = Announcement.objects.all().order_by('-date')
+    lessons = current_user.lesson_joined.all()
+    
+    announcements = Announcement.objects.filter(lesson__in =lessons).order_by('-date')
     context = {
         'announcements':announcements,
     }
