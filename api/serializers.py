@@ -1,5 +1,6 @@
 
 from django.contrib.auth.models import User
+from django.db.models import fields
 from django.db.models.base import Model
 from rest_framework.fields import ReadOnlyField
 from rest_framework.serializers import ModelSerializer
@@ -23,7 +24,7 @@ class RegisterSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ('username', 'password', 'password2', 'email', 'first_name', 'last_name')
+        fields = ('username', 'password', 'password2', 'email', 'first_name', 'last_name','is_staff')
         extra_kwargs = {
             'first_name': {'required': True},
             'last_name': {'required': True}
@@ -40,7 +41,8 @@ class RegisterSerializer(serializers.ModelSerializer):
             username=validated_data['username'],
             email=validated_data['email'],
             first_name=validated_data['first_name'],
-            last_name=validated_data['last_name']
+            last_name=validated_data['last_name'],
+            is_staff= validated_data['is_staff']
         )
 
         
@@ -52,8 +54,13 @@ class UserSerializer(ModelSerializer):
     
     class Meta:
         model = User
-        fields = '__all__'
+        fields = ('id','username','first_name','last_name','email','is_staff','date_joined')
 
+class UserProfileSerialize(ModelSerializer):
+
+    class Meta:
+        model = User
+        fields = ('id','username','first_name','last_name','email','is_staff','date_joined')
 
 class LessonAddSerializer(ModelSerializer):
 

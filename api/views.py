@@ -10,7 +10,7 @@ from rest_framework import generics
 from rest_framework import permissions
 import api
 from events.models import Event
-from .serializers import AnnouncementCreateSerializer, AnnouncementSerializer, AttendanceCreateSerializer, AttendanceSerializer, EventCreateSerializer, EventSerializer, LessonAddSerializer, LessonSerializer, MessageAddSerializer, MessagesSerializer, UserSerializer
+from .serializers import UserProfileSerialize, AnnouncementCreateSerializer, AnnouncementSerializer, AttendanceCreateSerializer, AttendanceSerializer, EventCreateSerializer, EventSerializer, LessonAddSerializer, LessonSerializer, MessageAddSerializer, MessagesSerializer, UserSerializer
 from lessons.models import Announcement, Lesson, Attendance, Message
 
 from api import serializers
@@ -41,6 +41,8 @@ class CustomAuthToken(ObtainAuthToken):
         return Response({
             'token': token.key,
             'user_id': user.pk,
+            'is_staff': user.is_staff,
+
         })
 
         
@@ -50,7 +52,11 @@ def getUsers(request):
     serializer = UserSerializer(users,many= True)
     return Response(serializer.data)
 
-
+@api_view(['GET'])
+def getUserProfile(request,id):
+    users = User.objects.get(id = id)
+    serializer = UserProfileSerialize(users,many= False)
+    return Response(serializer.data)
 
 
 #USER ##################################
