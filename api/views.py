@@ -57,6 +57,11 @@ def getUserProfile(request,id):
     users = User.objects.get(id = id)
     serializer = UserProfileSerialize(users,many= False)
     return Response(serializer.data)
+# @api_view(['GET'])
+# def getUserProfile(request,id):
+#     users = User.objects.get(id = id)
+#     serializer = UserProfileSerialize(users,many= False)
+#     return Response(serializer.data)
 
 
 #USER ##################################
