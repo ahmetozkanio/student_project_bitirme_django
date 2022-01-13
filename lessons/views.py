@@ -58,7 +58,7 @@ def lesson_detail(request,lesson_id):
         attendance = attendance_form.save(commit=False)
         attendance.lesson = lesson
         attendance.save()
-        attendance.qr_url =str(ALLOWED_HOSTS[1])+"/accounts/lesson/"+str(lesson_id)+"/attendance/"+str(attendance.id) + "/login/"
+        attendance.qr_url =str(ALLOWED_HOSTS[1])+"/accounts/lesson/"+str(lesson_id)+"/attendance/"+str(attendance.id) + "/login"
         attendance.save()
         messages.success(request,"Yoklama Olusturuldu") 
         return HttpResponseRedirect(reverse("lesson_detail", kwargs={'lesson_id': lesson_id}))

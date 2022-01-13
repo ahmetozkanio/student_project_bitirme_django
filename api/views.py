@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User
 from django.shortcuts import render
 # Create your views here.
+from django.urls import reverse
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -12,7 +13,7 @@ import api
 from events.models import Event
 from .serializers import UserProfileSerialize, AnnouncementCreateSerializer, AnnouncementSerializer, AttendanceCreateSerializer, AttendanceSerializer, EventCreateSerializer, EventSerializer, LessonAddSerializer, LessonSerializer, MessageAddSerializer, MessagesSerializer, UserSerializer
 from lessons.models import Announcement, Lesson, Attendance, Message
-
+from student.settings import ALLOWED_HOSTS
 from api import serializers
 from rest_framework.parsers import JSONParser 
 
@@ -159,7 +160,11 @@ class AttendanceList(APIView):
     def post(self,request,fornat=None):
         serializer = AttendanceCreateSerializer(data=request.data)
         if serializer.is_valid():
-            serializer.save()
+            attendance = serializer.save()
+            lesson_id =  attendance.lesson.id
+            
+            attendance.qr_url =str(ALLOWED_HOSTS[1])+"/accounts/lesson/"+str(lesson_id)+"/attendance/"+str(attendance.id) + "/login"
+            attendance.save()
             return Response(serializer.data,status=status.HTTP_201_CREATED)
         return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
 
