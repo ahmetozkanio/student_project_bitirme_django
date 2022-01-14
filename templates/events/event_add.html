@@ -10,22 +10,28 @@
 <div class="container ">
   <div class="row ">
     <div class="col-md-6 offset-md-3 bg-light shadow">
-        <br>
-      <h3>Duyuru Guncelle</h3>
+      <h3>Etkinlik Olustur</h3>
       <hr>
+
       {% if request.user.is_authenticated  %}
-      {% if request.user == announcement.lesson.teacher %}
+      
       {% if request.user.is_staff %}
+      
        <form action="" method = "POST" enctype="multipart/form-data">
          {% csrf_token %}
-         {{ form.media }}
-         {{form | crispy}}
-         <button type="submit"class ="btn btn-success">Guncelle</button>
+         {{ event_form.media }}
+         {{event_form | crispy}}
+         <button type="submit"class ="btn btn-success">Olustur</button>
          
        </form>
-{% endif %}
-{% endif %}
-{% endif %}
+       {% else %}
+       <p>Bu yetkiye sadece ogretmenler sahiptir..</p>
+       {% endif %}
+
+       {% else %}
+     
+       <p>Bu alana erismek icin giris yapmaniz gerekli..</p>
+       {% endif %}
       </div>
     </div>
     </div>

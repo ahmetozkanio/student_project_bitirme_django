@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block body %}
+{% load crispy_forms_tags %}
+
+
+
+
+<div class="container shadow">
+  <div class="row ">
+    <div class="col-1"></div>
+    <div class="col-7">
+<br>
+      <h3>{{event.name}} Etkinligi</h3>
+      <p>
+        
+      </p>
+      <dl class="row">
+        <dt class="col-sm-3">Etkinlik Basligi</dt>
+        <dd class="col-sm-9">{{event.title}}</dd>
+        <dt class="col-sm-3">Tarih</dt>
+        <dd class="col-sm-9">{{event.date }}</dd>
+
+        <dt class="col-sm-3">Etkinlik Ogretmeni</dt>
+        <dd class="col-sm-9">{{event.teacher }}</dd>
+
+          <dt class="col-sm-3">Açıklama</dt>
+        <dd class="col-sm-9">
+          <p>{{event.description | safe }}</p>
+          
+        </dd>
+     
+      
+       
+      
+      </dl>
+    </div>
+    <div class="col-4"> 
+        <br>  <h5>Katilan Ogrenciler</h5>
+        <div class="overflow-auto p-3 mb-3 mb-md-0 me-md-3 bg-light" style="max-width: 500px; max-height: 250px;">
+  
+        <ol class="list-group list-group-numbered">
+          {% if event.students.all %}
+          {% for student in event.students.all %}
+  
+          <li class="list-group-item d-flex justify-content-between
+            align-items-start">
+            <div class="ms-2 me-auto">
+  
+              <div class="fw-bold">{{student.username}}</div>
+              {{student.last_name}}
+            </div>
+  
+            <span class="badge bg-primary rounded-pill"></span>
+          </li>
+  
+          {% endfor %}
+          {% else %}
+          <li class="list-group-item d-flex justify-content-between
+            align-items-start">
+            <div class="ms-2 me-auto">
+  
+  
+              Her hangi bir kayit yok
+            </div>
+  
+          </li>
+  
+  
+  
+          {% endif %}
+  
+  
+        </ol>
+      </div></div>
+    
+
+    </div>
+    </div>
+
+
+{% endblock body %}

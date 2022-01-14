@@ -5,10 +5,9 @@ from django.contrib.auth.decorators import login_required
 
 from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib import messages
-import lessons
 from lessons.models import Announcement, Attendance, Lesson, Message
 from django.contrib.auth.models import User
-from lessons.forms import AnnouncementForm, AttendanceForm, MessageForm
+from lessons.forms import AnnouncementForm, AnnouncementUpdateForm, AttendanceForm, LessonForm, MessageForm
 from student.settings import ALLOWED_HOSTS
 
 
@@ -92,6 +91,27 @@ def lesson_add(request):
     messages.success(request,"Derse Kayit Oldunuz.") 
     lesson.students.add(user)
     return redirect('dashboard')
+
+
+def lesson_create(request):
+    current_user = request.user
+    if request.method == 'POST':
+        form = LessonForm(request.POST)
+        if form.is_valid():
+            
+            lesson=form.save(commit=False)
+            lesson.teacher = current_user
+            lesson.save()
+            lesson.students.add(request.user)
+            lesson.save()           
+            messages.success(request,"Ders Basariyla Olusturuldu.")
+            return redirect('dashboard')
+        else :
+            messages.success(request,"Ders Olusturulamadi.")
+    else:
+        form = LessonForm()        
+    return render(request,'lessons/lesson_add.html',{'lesson_form':form})
+
 
 
 def attendance_add(request,lesson_id,attendance_id):
@@ -192,14 +212,14 @@ def announcement_detail(request,announcement_id):
 
 
 def announcement_update(request, announcement_id):
-    announcement = get_object_or_404(Announcement, id=announcement_id)
-    form = AnnouncementForm(request.POST or None, instance=announcement)
+    announcement = Announcement.objects.get(id=announcement_id)
+    form = AnnouncementUpdateForm(request.POST or None,instance =announcement)
     if form.is_valid():
-        announcement = form.save(commit=False)
+        form.save()
         # hangi kullanici giris yapmissa duyuru ona gore eklenecek
-        announcement.author = request.user
+      
         # aslinda kayit bu satirdan sonra oluyor cunku ustteki save() commit=false yaptik bilerek
-        announcement.save()
+   
         messages.success(request, "Duyuru basariyla guncellendi")
         return redirect("announcements")
     return render(request, "announcements/update-announcement.html", {"form": form})

@@ -42,12 +42,15 @@
       
       {% if request.user.is_staff %}
 
+      {% if request.user == announcement.lesson.teacher %}
+
     <div class="col-2">  
       <br>   <a href="{% url 'announcement_update' announcement.id %}" class="btn btn-primary">
       Guncelle</a>
       <a href="{% url 'announcement_delete' announcement.id %}" class="btn btn-danger">
         Sil</a></div>
 
+        {% endif %}
         {% endif %}
         {% endif %}
 

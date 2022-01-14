@@ -1,5 +1,8 @@
-from django.shortcuts import render
-
+from asyncio import events
+from django.shortcuts import render,redirect
+from events.forms import EventForm
+from django.contrib import messages
+from django.contrib.auth.models import User
 from .models import Event
 
 # Create your views here.
@@ -24,46 +27,43 @@ def event_list(request):
 
 
 
+def event_create(request):
+    current_user = request.user
+    if request.method == 'POST':
+        form = EventForm(request.POST)
+        if form.is_valid():
+            
+            event =form.save(commit=False)
+            event.teacher = current_user
+            event.save()
+                  
+            messages.success(request,"Etkinlik Basariyla Olusturuldu.")
+            return redirect('events')
+        else :
+            messages.success(request,"Etkinlik Olusturulamadi.")
+    else:
+        form = EventForm()        
+    return render(request,'events/event_add.html',{'event_form':form})
 
-def event_detail(request,lesson_id):
+
+def event_detail(request,event_id):
     pass
-    # current_user = request.user
-    # lessons = Lesson.objects.all().order_by('-date')
-    # lesson = Lesson.objects.get(id = lesson_id)
-    # attendances = Attendance.objects.all().filter(lesson = lesson_id, avaliable = True)
-    # attendance_form = AttendanceForm(request.POST or None)
+    current_user = request.user
 
-    # message_form = MessageForm(request.POST or None)
-    # message_text = Message.objects.all().filter(lesson = lesson_id)
+    event = Event.objects.get(id = event_id)
+ 
 
-    # if message_form.is_valid():
-    #     message = message_form.save(commit=False)
-    #     message.lesson = lesson
-    #     message.user = request.user
-    #     message.save()
+    context = {
+       'event':event
+    }
 
+    return render(request,'events/event.html',context)
 
-    # if attendance_form.is_valid():
-    #     attendance = attendance_form.save(commit=False)
-    #     # Hangi Kullanici Giris yapmissa
-    #     attendance.lesson = lesson
-        
-    #     attendance.save()
-    #     messages.success(request,"Yoklama Olusturuldu") 
-
-
-    # if request.user.is_authenticated:
-    #     lesson_join = current_user.lesson_joined.all()
-    # else:
-    #     lesson_join = lessons
-
-    # context = {
-    #     'lesson':lesson,
-    #     'lesson_join':lesson_join,
-    #     'attendances':attendances,
-    #     'attendance_form':attendance_form,
-    #     'message_form':message_form,
-    #     'message_text':message_text,
-    # }
-
-    # return render(request,'lessons/lesson.html',context)
+def event_join(request):
+    event_id = request.POST['event_id']
+    user_id = request.POST['user_id']
+    event = Event.objects.get(id=event_id)
+    user = User.objects.get(id = user_id)
+    messages.success(request,"Etkinlige Kayit Oldunuz.") 
+    event.students.add(user)
+    return redirect('events')

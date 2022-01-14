@@ -69,10 +69,7 @@ class LessonAddSerializer(ModelSerializer):
         fields = '__all__'
 
 class LessonSerializer(ModelSerializer):
-
     students = UserSerializer(many=True)
-    
-    
     class Meta:
         model = Lesson
         fields = '__all__'

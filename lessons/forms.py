@@ -1,5 +1,4 @@
 
-from types import TracebackType
 from django import forms
 
 from .models import Announcement, Attendance, Lesson, Message
@@ -23,11 +22,9 @@ class MessageForm(forms.ModelForm):
 
 class AnnouncementForm(forms.ModelForm):
 
-     
-  
     def __init__(self, *args, **kwargs):
         user = kwargs.pop("user")
-        print(user)
+   
         super(AnnouncementForm, self).__init__(*args, **kwargs)
         self.fields["lesson"].queryset = Lesson.objects.filter(teacher=user)
        
@@ -36,3 +33,23 @@ class AnnouncementForm(forms.ModelForm):
     class Meta:
         model = Announcement
         fields = ["lesson","title","description"]
+class AnnouncementUpdateForm(forms.ModelForm):
+
+
+    class Meta:
+        model = Announcement
+        fields = ["title","description"]
+
+class LessonForm(forms.ModelForm):
+    # def __init__(self, *args, **kwargs):
+    #     user = kwargs.pop("user")
+    #     print(user)
+    #     super(AnnouncementForm, self).__init__(*args, **kwargs)
+    #     self.fields["lesson"].queryset = Lesson.objects.filter(teacher=user)
+       
+    # lesson = forms.ModelChoiceField(queryset=None, widget=forms.Select, required=True)
+
+    class Meta:
+        model = Lesson
+        fields = ["name","image","description"]
+

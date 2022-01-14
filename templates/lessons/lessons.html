@@ -10,7 +10,13 @@
 
     <div class="container">
       <div class="row">
+        {% if request.user.is_authenticated  %}
+      
+        {% if request.user.is_staff %}
+  <a href="{% url 'lesson_create' %}" class="btn btn-warning">Ders Oluştur</a><hr>
 
+  {% endif %}
+  {% endif %}
         <div class="row row-cols-1 row-cols-md-4 g-4">
           {% for lesson  in lessons %}
           <div class="col ">
