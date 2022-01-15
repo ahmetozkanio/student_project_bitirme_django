@@ -73,6 +73,13 @@ class LessonSerializer(ModelSerializer):
     class Meta:
         model = Lesson
         fields = '__all__'
+
+class LessonJoinedStudentSerializer(ModelSerializer):
+
+    students = serializers.PrimaryKeyRelatedField(many=True, read_only=False, queryset=User.objects.all(), source='students')
+    class Meta:
+        model = Lesson
+        fields = ('id','students')
         
 class AttendanceSerializer(ModelSerializer):
    

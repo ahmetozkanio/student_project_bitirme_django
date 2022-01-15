@@ -14,6 +14,8 @@ urlpatterns = [
 
      path('lessons/',views.getLessons),
      path('lesson/add',views.postLesson),
+     path('lesson/<int:id>/join',views.lessonJoinedStudent),
+
 
 
 

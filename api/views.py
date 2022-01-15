@@ -11,7 +11,7 @@ from rest_framework import generics
 from rest_framework import permissions
 import api
 from events.models import Event
-from .serializers import UserProfileSerialize, AnnouncementCreateSerializer, AnnouncementSerializer, AttendanceCreateSerializer, AttendanceSerializer, EventCreateSerializer, EventSerializer, LessonAddSerializer, LessonSerializer, MessageAddSerializer, MessagesSerializer, UserSerializer
+from .serializers import LessonJoinedStudentSerializer, UserProfileSerialize, AnnouncementCreateSerializer, AnnouncementSerializer, AttendanceCreateSerializer, AttendanceSerializer, EventCreateSerializer, EventSerializer, LessonAddSerializer, LessonSerializer, MessageAddSerializer, MessagesSerializer, UserSerializer
 from lessons.models import Announcement, Lesson, Attendance, Message
 from student.settings import ALLOWED_HOSTS
 from api import serializers
@@ -101,6 +101,25 @@ def postLesson(request):
         serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+# def lessonJoinedStudent(request,id):
+#     lesson = Lesson.objects.get(id)
+#     serializer =LessonSerializer(lesson,data=request.data)
+#     if serializer.is_valid():
+#         serializer.save()
+#         return Response(serializer.data)
+#     return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
+@api_view(['PUT'])
+def lessonJoinedStudent(request):
+    lesson_id = request.PUT['lesson_id']
+    user_id = request.PUT['user_id']
+    lesson  = Lesson.objects.get(id=lesson_id)
+    user = User.objects.get(id = user_id)
+    lesson.students.add(user)
+    
+
+
 
 class LessonDetail(APIView):
 
@@ -215,4 +234,5 @@ class MessageDetail(APIView):
         messages = self.get_object(lesson_id)
         serializer = MessagesSerializer(messages,many= True)
         return Response(serializer.data)
-    
+
+
