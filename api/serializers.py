@@ -76,10 +76,12 @@ class LessonSerializer(ModelSerializer):
 
 class LessonJoinedStudentSerializer(ModelSerializer):
 
-    students = serializers.PrimaryKeyRelatedField(many=True, read_only=False, queryset=User.objects.all(), source='students')
+    students = serializers.PrimaryKeyRelatedField(many=True, read_only=False, queryset=User.objects.all())
+    name = serializers.CharField(required = False)
+    
     class Meta:
         model = Lesson
-        fields = ('id','students')
+        fields = '__all__'
         
 class AttendanceSerializer(ModelSerializer):
    

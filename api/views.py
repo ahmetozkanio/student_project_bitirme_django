@@ -1,3 +1,4 @@
+from traceback import print_tb
 from django.contrib.auth.models import User
 from django.shortcuts import render
 # Create your views here.
@@ -138,8 +139,12 @@ class LessonDetail(APIView):
         return Response(serializer.data)
     
     def put(self,request,id,format=None):
-        lesson = self.get_object(id)
-        serializer =LessonSerializer(lesson,data=request.data)
+        # lesson = self.get_object(id)
+        lesson = Lesson.objects.get(id= id)
+        
+        
+        serializer =LessonJoinedStudentSerializer(lesson,data=request.data)
+
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
