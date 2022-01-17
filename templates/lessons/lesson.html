@@ -11,7 +11,6 @@
 
   <div class="row">
 
-      <!--User authenticated == student is add lesson-->
     
   
       {% if lesson not in lesson_join %}
@@ -116,10 +115,8 @@
         </div>
       </div>
     </div>
-    <button type="button" class="btn btn-outline-success" data-bs-toggle="modal"
-    data-bs-target="#qrCodeModal">
-    <i class="fa fa-qrcode fa-4x"></i>
-  </button>
+  
+ 
     <!--User authenticated == student is add lesson-->
     {% if lesson not in lesson_join %}
     
@@ -130,7 +127,11 @@
       {% if attendances %}
       <ul class="list-group">
    
-        
+        <button type="button" class="btn btn-outline-success" data-bs-toggle="modal"
+        data-bs-target="#qrCodeModal">
+        <i class="fa fa-qrcode fa-4x"></i>
+      </button>
+    
         {% if request.user  == lesson.teacher %}
         
         {% if request.user.is_staff %}
@@ -215,7 +216,33 @@
     </div><!--col-->
     {% endif %} <!--User authenticated == student is add lesson-->
 
-  </div><!--Row-->
+<!-- Button trigger modal -->
+
+<!-- QR Modal ################################ -->
+<div class="modal fade" id="qrCodeModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Qr Code {{attendance_remove_avaliable_last.lesson}} </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="btn btn-warning">Yoklamaya katilmak icin okutunuz ve kimliginizi dogrulayiniz.</div>
+        
+        <br>
+
+    
+        <img src="{{attendance_remove_avaliable_last.qr_code.url}}" alt=""> 
+      </div>
+      <div class="modal-footer">
+    
+      
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- QR Modal ################################ -->
     
 
 
@@ -276,7 +303,7 @@
         <div class="modal-dialog modal-dialog-centered">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Yoklama Olustur</h5>
+              <h5 class="modal-title" id="exampleModalLabel">Yoklamayi Sonlandir</h5>
               <button type="button" class="btn-close" data-bs-dismiss="modal"
                 aria-label="Close"></button>
             </div>
@@ -288,27 +315,9 @@
         <!--Attendance Remove Modal #################################################-->
 
 
-        <div class="modal fade"id="qrCodeModal" tabindex="-1"
-        aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Yoklama Olustur</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal"
-                aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-          <a class = "btn btn-danger" href="{% url 'attendance_remove'  attendance_id=attendance_remove_avaliable_last.id  %}">Kapat</a>
-          </div>
-          </div>
-        </div>
+
+
+      </div><!--Row-->
 
         {% endblock body %}
 
-
-
-        {% comment %} {{attendance_remove_avaliable_last.lesson}} -Yoklama Almak Icin Okutunuz Ve Kimliginizi Dogrulayiniz
-        <br>
-
-    
-        <img src="{{attendance_remove_avaliable_last.qr_code.url}}" alt=""> {% endcomment %}
