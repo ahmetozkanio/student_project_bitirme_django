@@ -11,17 +11,18 @@ urlpatterns = [
      #Event#
      path('events/',views.EventList.as_view()),
 
-
+     #Lesson#
      path('lessons/',views.getLessons),
      path('lesson/add',views.postLesson),
-     path('lesson/<int:id>/join',views.lessonJoinedStudent),
-
-
-
-
+    
      path('lesson/<int:id>',views.LessonDetail.as_view()),
+
+
+
      #Attendance#
      path('attendances/',views.AttendanceList.as_view()),
+     path('attendance/<int:id>/join',views.AttendanceDetail.as_view()),
+     
      #Message#
      path('lesson/<int:lesson_id>/messages/',views.MessageDetail.as_view()),
      path('messages/',views.postMessage),

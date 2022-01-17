@@ -116,7 +116,10 @@
         </div>
       </div>
     </div>
-
+    <button type="button" class="btn btn-outline-success" data-bs-toggle="modal"
+    data-bs-target="#qrCodeModal">
+    <i class="fa fa-qrcode fa-4x"></i>
+  </button>
     <!--User authenticated == student is add lesson-->
     {% if lesson not in lesson_join %}
     
@@ -127,13 +130,23 @@
       {% if attendances %}
       <ul class="list-group">
    
+        
         {% if request.user  == lesson.teacher %}
         
         {% if request.user.is_staff %}
-        <button type="button" class="btn btn-danger" data-bs-toggle="modal"
-        data-bs-target="#removeModal">
-        Yoklama Sonlandir.
-      </button>
+      
+
+
+      
+          
+            <button type="button" class="btn btn-danger" data-bs-toggle="modal"
+            data-bs-target="#removeModal">
+            Yoklama Sonlandir.
+          </button>
+     
+     
+        
+        
 {% endif %}
 {% endif %}
         {% for attendance in attendances %}
@@ -268,37 +281,34 @@
                 aria-label="Close"></button>
             </div>
             <div class="modal-body">
-         
-           
-         
- 
-          {% comment %} <input type="hidden" name="attendance_id" value="{{attendance_remove_avaliable_last.id}}">
-          <input type="hidden" name="lesson_id" value="{{lesson.id}}"> {% endcomment %}
           <a class = "btn btn-danger" href="{% url 'attendance_remove'  attendance_id=attendance_remove_avaliable_last.id  %}">Kapat</a>
-         
-
-       
-                       
-{% comment %}                        
-             <form action="{% url 'lesson_add' %}" method ="POST">
-              {% csrf_token %}
-              <input type="hidden" name ="attendance_id" value="{{attendance.id}}">
-              <input type="hidden" name ="lesson_id" value="{{lesson.id}}">		
-              <input type="submit" value ="Derse Kayit Ol"class="btn btn-outline-success">
-            </form>
-                        {{attendance_form | crispy}}
-                       {% endcomment %}
           </div>
-
-              <div class="modal-footer">
-                <button type="button" class="btn btn-secondary"
-                  data-bs-dismiss="modal">Iptal et</button>
-                <button type="submit" class="btn btn-success">Sonlandir</button>
-              </div>
-            </form>
-
-
           </div>
         </div>
         <!--Attendance Remove Modal #################################################-->
+
+
+        <div class="modal fade"id="qrCodeModal" tabindex="-1"
+        aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Yoklama Olustur</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal"
+                aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+          <a class = "btn btn-danger" href="{% url 'attendance_remove'  attendance_id=attendance_remove_avaliable_last.id  %}">Kapat</a>
+          </div>
+          </div>
+        </div>
+
         {% endblock body %}
+
+
+
+        {% comment %} {{attendance_remove_avaliable_last.lesson}} -Yoklama Almak Icin Okutunuz Ve Kimliginizi Dogrulayiniz
+        <br>
+
+    
+        <img src="{{attendance_remove_avaliable_last.qr_code.url}}" alt=""> {% endcomment %}

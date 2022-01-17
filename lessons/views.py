@@ -5,6 +5,7 @@ from django.contrib.auth.decorators import login_required
 
 from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib import messages
+from accounts.views import logout
 from lessons.models import Announcement, Attendance, Lesson, Message
 from django.contrib.auth.models import User
 from lessons.forms import AnnouncementForm, AnnouncementUpdateForm, AttendanceForm, LessonForm, MessageForm
@@ -128,13 +129,30 @@ def attendance_add(request,lesson_id,attendance_id):
     
     attendance = Attendance.objects.get(id=attendance_id)
     lesson = attendance.lesson
-    user = lesson.students.get(id = user_id)
-    attendance.user_joined.add(user)
+    try:
+        user = lesson.students.get(id = user_id)
+    except User.DoesNotExist:
+        user = None
+
+    if user != None:
+        if attendance.avaliable:
+            
+            attendance.user_joined.add(user)
+            messages.success(request,"Ders :" +lesson.name+" yoklamaniz alindi.") 
+           
+            return redirect("index")
+            
+        elif attendance.avaliable == False:
+            messages.success(request,"Yoklama kapanmistir Katilamadiniz.")
+           
+            return redirect("index")
+        
+    messages.success(request,"Bu derse kayitli degilsiniz yoklama alinmadi.")
+
+    return redirect("index")
     
 
     
-    messages.success(request,"Ders :" +lesson.name+" yoklamaniz alindi.") 
-    return redirect("index")
 
 
 
@@ -232,10 +250,10 @@ def announcement_delete(request, announcement_id):
 
 
 def qr_site(request,attendance_id):
-    name = "Hosgeldin Yoklaman Alinmistir..."
+   
     obj = Attendance.objects.get(id = attendance_id )
     context = {
-        'name' :name,
+        
         'obj':obj
     }
     return render(request,'attendances/qr_code.html',context)

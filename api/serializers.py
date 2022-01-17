@@ -1,4 +1,5 @@
 
+from datetime import date
 from django.contrib.auth.models import User
 from django.db.models import fields
 from django.db.models.base import Model
@@ -82,7 +83,19 @@ class LessonJoinedStudentSerializer(ModelSerializer):
     class Meta:
         model = Lesson
         fields = '__all__'
+
+class AttendanceStudentJoinSerializer(ModelSerializer):
+
+    user_joined = serializers.PrimaryKeyRelatedField(many=True, read_only=False, queryset=User.objects.all())
+    lesson = serializers.CharField(required = False)
+    date = serializers.CharField(required = False) 
+    date2 = serializers.CharField(required = False) 
+
+    class Meta:
+        model = Attendance
+        fields = '__all__'
         
+
 class AttendanceSerializer(ModelSerializer):
    
     lesson = LessonSerializer(many=False)

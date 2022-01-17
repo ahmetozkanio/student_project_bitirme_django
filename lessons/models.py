@@ -1,3 +1,4 @@
+from datetime import datetime
 from django.db import models
 from django.contrib.auth.models import User
 from ckeditor.fields import RichTextField
@@ -40,12 +41,17 @@ class Attendance(models.Model):
         canvas = Image.new('RGB',(400, 400), 'white')
         draw = ImageDraw.Draw(canvas)
         canvas.paste(qrcode_img)
-        fname = f'qr_code-(self.lesson)'+'.png'
+        fname = f'qr_code-{self.lesson}-yoklama-{self.id}'+'.png'
         buffer = BytesIO()
         canvas.save(buffer,'PNG')
         self.qr_code.save(fname,File(buffer),save=False)
         canvas.close()
         super().save(*args, **kwargs)
+
+
+
+
+
 
 class Announcement(models.Model):
     lesson = models.ForeignKey(Lesson,on_delete=models.CASCADE)
