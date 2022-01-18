@@ -9,7 +9,7 @@
         <div class="col">
             <H1 >Tüm Yoklamalar</H1>
         
-        
+            <div class="table-responsive">
             <table class="table table-striped table-hover">
                 <thead>
                   <tr>
@@ -73,11 +73,11 @@
                     <td><a href="{% url 'attendance_detail' attendance.id %}" class="btn btn-success">
                         Detaya Git</a></td>
                         
-                  
+                        {% if attendance.avaliable %}
 
                    <td><a href="{% url 'attendance_remove' attendance_id=attendance.id %}" class="btn btn-warning">
                         Kapat</a></td>
-                       
+                       {% endif %}
                         {% endif %}
                         {% endif %}
                   </tr>
@@ -86,7 +86,7 @@
                     
                 </tbody>
               </table>
-
+            </div>
 </div>
 </div><!--Col-->
 </div><!--Row-->

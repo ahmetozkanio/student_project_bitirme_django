@@ -232,15 +232,14 @@ def announcement_detail(request,announcement_id):
 def announcement_update(request, announcement_id):
     announcement = Announcement.objects.get(id=announcement_id)
     form = AnnouncementUpdateForm(request.POST or None,instance =announcement)
+    
     if form.is_valid():
         form.save()
-        # hangi kullanici giris yapmissa duyuru ona gore eklenecek
-      
-        # aslinda kayit bu satirdan sonra oluyor cunku ustteki save() commit=false yaptik bilerek
+
    
         messages.success(request, "Duyuru basariyla guncellendi")
         return redirect("announcements")
-    return render(request, "announcements/update-announcement.html", {"form": form})
+    return render(request, "announcements/update-announcement.html", {"form": form,"announcement":announcement})
 
 def announcement_delete(request, announcement_id):
     announcement = get_object_or_404(Announcement, id=announcement_id)

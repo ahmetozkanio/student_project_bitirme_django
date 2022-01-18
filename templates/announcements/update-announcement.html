@@ -7,24 +7,34 @@
 
 
 
-<div class="container ">
+<div class="container responsive">
   <div class="row ">
     <div class="col-md-6 offset-md-3 bg-light shadow">
         <br>
       <h3>Duyuru Guncelle</h3>
       <hr>
       {% if request.user.is_authenticated  %}
-      {% if request.user == announcement.lesson.teacher %}
       {% if request.user.is_staff %}
+
+      {% if request.user == announcement.lesson.teacher %}
        <form action="" method = "POST" enctype="multipart/form-data">
          {% csrf_token %}
          {{ form.media }}
          {{form | crispy}}
          <button type="submit"class ="btn btn-success">Guncelle</button>
          
-       </form>
+       </form> 
+     
+       {% else %}
+       Bu dersin duyurusunu guncelleyemezsiniz..
 {% endif %}
+
+
+{% else %}
+       Ogretmen yetkisine sahip degilsiniz...
 {% endif %}
+{% else %}
+     Giris yapmaniz gerekiyor..
 {% endif %}
       </div>
     </div>
