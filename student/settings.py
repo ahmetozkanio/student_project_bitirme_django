@@ -26,22 +26,25 @@ SECRET_KEY = 'django-insecure-6f)l685%m%%^1h=#xi*!1gu=6-4u_73=uw)84zf)#yqm&q)c!0
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["www.ahmetozkan.com","192.168.1.38","10.0.3.2","78.173.82.124","0.0.0.0"]
+ALLOWED_HOSTS = ["www.ahmetozkan.com","192.168.1.38","10.0.3.2","127.0.0.1","0.0.0.0"]
 
 
 # Application definition
 
 INSTALLED_APPS = [
+    'channels',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
     'accounts',
     'lessons',
     'events',
     'pages',
+  
     
     'crispy_forms',
     'ckeditor',
@@ -52,6 +55,8 @@ INSTALLED_APPS = [
     'oauth2_provider',
 
     'import_export',
+
+  
 ]
 
 REST_FRAMEWORK = {
@@ -76,7 +81,7 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'student.urls'
-
+ASGI_APPLICATION = 'student.asgi.application'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -92,9 +97,17 @@ TEMPLATES = [
         },
     },
 ]
-
+# ASGI_APPLICATION = 'student.asgi.application'
 WSGI_APPLICATION = 'student.wsgi.application'
 
+# CHANNEL_LAYERS = {
+#     'default': {
+#         'BACKEND': 'channels_redis.core.RedisChannelLayer',
+#         'CONFIG': {
+#             "hosts": [('127.0.0.1', 6379)],
+#         },
+#     },
+# }
 
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases

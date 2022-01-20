@@ -319,5 +319,43 @@
 
       </div><!--Row-->
 
-        {% endblock body %}
+
+
+
+
+<!--WEBSOCKETS JAVASCRIPT ################################################################-->
+<script>
+//websocket scripts
+
+  console.log(window.location)
+  //lesson.html adresindeyken location bilgilerini aliyoruz
+  var loc = window.location
+  
+  //websocket start 
+  var wsStart = 'ws://'
+  if(loc.protocol == 'https:' ){
+    //Proje yayindayken security oldugundan websocket protokolumuz wss olmali
+    wsStart = 'wss://'
+  }
+  var endpoint = wsStart + loc.host + loc.pathname
+  
+  var socket = new WebSocket(endpoint)
+
+  socket.onmessage = function(e){
+    console.log("message",e);
+  }
+  socket.onopen= function(e){
+    console.log("open",e);
+  }
+  socket.onerror= function(e){
+    console.log("errorsad",e);
+  }
+  socket.onclose= function(e){
+    console.log("closeasd",e);
+  }
+
+</script> 
+
+
+ {% endblock body %}
 
