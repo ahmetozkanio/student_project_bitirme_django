@@ -26,7 +26,7 @@ grid-template-rows: auto 1fr auto;
     
 
            
-      <div class="col-3">
+      <div class="col-3 " style="margin-right:30px;min-width :300px;max-width: 300px;">
 
         <h6>Aktif Ogreciler</h6>
            <!-- ONLINE STUDENTS -->
@@ -62,11 +62,11 @@ grid-template-rows: auto 1fr auto;
       </div>
      
       <!-- MESSAGES -->
-      <div class="container" style="padding-left: 0px;">
-      <div class="overflow-auto" style="min-width :300px;max-width: 500px; max-height: 250px;">
+      <div class="container" style="padding-left: 0px;min-width :300px;max-width: 300px;">
+      <div class="overflow-auto" style="min-width :300px;max-width: 300px; max-height: 250px;">
         <ul id="chat-items" class="list-group list-group-flush " style=" width: 18rem;">
           {% for message in message_text %}
-          <li class="list-group-item list-group-item-warning "style="max-width:500px;">
+          <li class="list-group-item list-group-item-warning "style="max-width:300px;">
             <b  style=" font-size: 12px;">{{message.user}} </b> 
             <small style=" font-size: 11px;">{{message.date}}</small> 
           <br>  
@@ -84,12 +84,11 @@ grid-template-rows: auto 1fr auto;
      
 
        
-       
       <form id = 'messageForm' action="" method="post" enctype="multipart/form-data" >
         {% csrf_token %}
         <input type="hidden" id = 'myUsername' value='{{ user.username }}' />
      
-        <div class="row " style='min-width:350px;'>
+        <div class="row " style='min-width:325px;'>
             <div class="col-10 "style="padding-right: calc(var(--bs-gutter-x) * .0);">
              
                 {{message_form.text}}
@@ -140,7 +139,7 @@ grid-template-rows: auto 1fr auto;
 
   
     {% else %}<!--User authenticated == student is add lesson-->
-    <div class="col-2">
+    <div class="col-3" style="margin-left:30px;">
       {% if attendances %}
       <ul class="list-group" style="min-width :200px;max-width: 300px; max-height: 250px;">
    
@@ -357,7 +356,7 @@ grid-template-rows: auto 1fr auto;
   var msgInput = $("#id_text")
   var chatHolder=$("#chat-items")
   var user = $("#myUsername").val()
-  var auth_user = {{user}}
+
   //websocket start 
   var wsStart = 'ws://'
   if(loc.protocol == 'https:' ){
@@ -371,7 +370,7 @@ grid-template-rows: auto 1fr auto;
   socket.onmessage = function(e){
     console.log("message-lesson.html",e);
     var chatDataMsg = JSON.parse(e.data);
-    var now = new Date(Date.now());
+ 
          chatHolder.append(
       "<li class='list-group-item list-group-item-success ' style='max-width:500px;'>"+
       "<b  style='font-size: 12px;'>"+
@@ -381,12 +380,13 @@ grid-template-rows: auto 1fr auto;
       chatDataMsg.message+
       "</div>"+
       "</li>");
+  
   }
   
   socket.onopen= function(e){
-    console.log("open-lesson.html",e);
-    console.log("user",user)
-
+    console.log("open-   lesson.html",e);
+   
+    
 
     formData.submit(function(event){
       event.preventDefault()
@@ -406,6 +406,13 @@ grid-template-rows: auto 1fr auto;
   socket.onclose= function(e){
     console.log("close-lesson.html",e);
   }
+{% comment %} 
+  function onlineUser(user){
+    var userData = {
+      'user':user
+    }
+    socket.send(JSON.stringify(userData))
+  } {% endcomment %}
 
 </script> 
 

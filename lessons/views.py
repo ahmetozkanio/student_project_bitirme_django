@@ -74,6 +74,7 @@ def lesson_detail(request,lesson_id):
     else:
         lesson_join = lessons
     context = {
+        'current_user':current_user,
         'lesson':lesson,
         'lesson_join':lesson_join,
         'attendances':attendances,

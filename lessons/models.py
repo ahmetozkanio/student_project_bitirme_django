@@ -48,11 +48,6 @@ class Attendance(models.Model):
         canvas.close()
         super().save(*args, **kwargs)
 
-
-
-
-
-
 class Announcement(models.Model):
     lesson = models.ForeignKey(Lesson,on_delete=models.CASCADE)
     title = models.CharField(max_length=128)
@@ -72,4 +67,8 @@ class Message(models.Model):
         return self.user.username
     
     
-    
+class OnlineUsers(models.Model):
+    user = models.ForeignKey(User,on_delete=models.CASCADE)
+    lesson = models.ForeignKey(Lesson,on_delete=models.CASCADE)
+    def __str__(self):
+        return self.user.username
