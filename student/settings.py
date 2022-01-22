@@ -81,7 +81,7 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'student.urls'
-ASGI_APPLICATION = 'student.asgi.application'
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -97,17 +97,18 @@ TEMPLATES = [
         },
     },
 ]
-# ASGI_APPLICATION = 'student.asgi.application'
-WSGI_APPLICATION = 'student.wsgi.application'
 
-# CHANNEL_LAYERS = {
-#     'default': {
-#         'BACKEND': 'channels_redis.core.RedisChannelLayer',
-#         'CONFIG': {
-#             "hosts": [('127.0.0.1', 6379)],
-#         },
-#     },
-# }
+WSGI_APPLICATION = 'student.wsgi.application'
+ASGI_APPLICATION = 'student.asgi.application'
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": [('127.0.0.1', 6379)],
+        },
+    },
+}
+
 
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases

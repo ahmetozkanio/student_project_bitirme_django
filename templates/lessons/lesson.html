@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-
+{% load static %}
 
 {% block body %}
 
@@ -59,7 +59,7 @@
      
       <!-- MESSAGES -->
       <div class="overflow-auto p-3 mb-3 mb-md-end me-md-3 bg-light" style="max-width: 500px; max-height: 250px;">
-        <ul class="list-group list-group-flush">
+        <ul id="chat-items" class="list-group list-group-flush">
           {% for message in message_text %}
           <li class="list-group-item"><b>{{message.user}} </b> <small>{{message.date}}</small> 
           <br>
@@ -67,17 +67,18 @@
           </li>
   
           {% endfor %}
-  
+          
         </ul>
         
       </div>
       
-      <form action="" method="post" enctype="multipart/form-data" >
+      <form id = 'messageForm' action="" method="post" enctype="multipart/form-data" >
         {% csrf_token %}
        
         <div class="container">
              <div class="row align-items-start ">
               <div class="col">
+                <input type="hidden" id = 'myUsername' value='{{ user.username }}' />
                 {{message_form | crispy}}
                 
               </div>
@@ -103,7 +104,7 @@
           <span><small>{{lesson.teacher}}</small></span>
           <p class="col-md-8 fs-7">{{lesson.description}}</p>
           {% if lesson not in lesson_join %}
-          <form action="{% url 'lesson_add' %}" method ="POST">
+          <form  action="{% url 'lesson_add' %}" method ="POST">
             {% csrf_token %}
             <input type="hidden" name ="user_id" value="{{user.id}}">
             <input type="hidden" name ="lesson_id" value="{{lesson.id}}">		
@@ -324,6 +325,8 @@
 
 
 <!--WEBSOCKETS JAVASCRIPT ################################################################-->
+<!--Websocket websocket/reconnecting-->
+<script src="{% static 'websocket/reconnecting-websocket.js' %}"></script>
 <script>
 //websocket scripts
 
@@ -331,6 +334,12 @@
   //lesson.html adresindeyken location bilgilerini aliyoruz
   var loc = window.location
   
+  //jQuery MessageForm
+  var formData =  $("#messageForm")
+  var msgInput = $("#id_text")
+  var chatHolder=$("#chat-items")
+  var user = $("#myUsername").val()
+
   //websocket start 
   var wsStart = 'ws://'
   if(loc.protocol == 'https:' ){
@@ -339,19 +348,32 @@
   }
   var endpoint = wsStart + loc.host + loc.pathname
   
-  var socket = new WebSocket(endpoint)
+  var socket = new ReconnectingWebSocket(endpoint);
 
   socket.onmessage = function(e){
-    console.log("message",e);
+    console.log("message-lesson.html",e);
+    var chatDataMsg = JSON.parse(e.data);
+    chatHolder.append("<li>"+chatDataMsg.message+ " username: " +chatDataMsg.username+"</li>")
   }
   socket.onopen= function(e){
-    console.log("open",e);
+    console.log("open-lesson.html",e);
+    formData.submit(function(event){
+      event.preventDefault()
+      var msgText = msgInput.val()
+      //chatHolder.append("<li>"+msgText+ " username: " +user+"</li>")
+      var finalData = {
+        'message':msgText
+      }
+      socket.send(JSON.stringify(finalData))
+      //msgInput.val('')
+      formData[0].reset()
+    })
   }
   socket.onerror= function(e){
-    console.log("errorsad",e);
+    console.log("error-lesson.html",e);
   }
   socket.onclose= function(e){
-    console.log("closeasd",e);
+    console.log("close-lesson.html",e);
   }
 
 </script> 

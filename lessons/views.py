@@ -42,6 +42,7 @@ def lesson_detail(request,lesson_id):
     
     message_form = MessageForm(request.POST or None)
     message_text = Message.objects.all().filter(lesson = lesson_id)
+   
     
 
     if message_form.is_valid():
