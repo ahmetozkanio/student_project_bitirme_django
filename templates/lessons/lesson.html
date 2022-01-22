@@ -353,7 +353,16 @@
   socket.onmessage = function(e){
     console.log("message-lesson.html",e);
     var chatDataMsg = JSON.parse(e.data);
-    chatHolder.append("<li>"+chatDataMsg.message+ " username: " +chatDataMsg.username+"</li>")
+   
+    //chatHolder.append("<li>"+chatDataMsg.message+ " username: " +chatDataMsg.username+"</li>")
+    chatHolder.append(
+      "<li class='list-group-item'>"+ 
+      chatDataMsg.username+
+      "<small>"+
+      chatDataMsg.date+
+      "</small> <br>"+
+      chatDataMsg.message+
+      "</li>")
   }
   socket.onopen= function(e){
     console.log("open-lesson.html",e);
