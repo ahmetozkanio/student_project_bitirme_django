@@ -6,7 +6,10 @@
 {% load crispy_forms_tags %}
 
 
-<div class="container-fluid shadow">
+<div class="container-fluid shadow"style="display: grid;
+
+grid-template-rows: auto 1fr auto;
+">
   
 
   <div class="row">
@@ -25,13 +28,14 @@
            
       <div class="col-3">
 
-        <h5>Aktif Ogreciler</h5>
+        <h6>Aktif Ogreciler</h6>
            <!-- ONLINE STUDENTS -->
-           <div class="overflow-auto p-3 mb-3 mb-md-0 me-md-3 bg-light" style="max-width: 500px; max-height: 150px;">
+        
+           <div class="overflow-auto " style="min-width :300px;max-width: 300px; max-height: 250px;">
        
-        <ol class="list-group list-group-numbered">
+        <ol class="list-group list-group-numbered "  style=" font-size: 12px; width: 11rem;">
           <li class="list-group-item d-flex justify-content-between
-            align-items-start">
+            align-items-start list-group-item-warning ">
             <div class="ms-2 me-auto">
               <div class="fw-bold">Subheading</div>
               Cras justo odio
@@ -39,7 +43,7 @@
             <span class="badge bg-primary rounded-pill"></span>
           </li>
           <li class="list-group-item d-flex justify-content-between
-            align-items-start">
+            align-items-start list-group-item-success ">
             <div class="ms-2 me-auto">
               <div class="fw-bold">Subheading</div>
               Cras justo odio
@@ -58,12 +62,18 @@
       </div>
      
       <!-- MESSAGES -->
-      <div class="overflow-auto p-3 mb-3 mb-md-end me-md-3 bg-light" style="max-width: 500px; max-height: 250px;">
-        <ul id="chat-items" class="list-group list-group-flush">
+      <div class="container" style="padding-left: 0px;">
+      <div class="overflow-auto" style="min-width :300px;max-width: 500px; max-height: 250px;">
+        <ul id="chat-items" class="list-group list-group-flush " style=" width: 18rem;">
           {% for message in message_text %}
-          <li class="list-group-item"><b>{{message.user}} </b> <small>{{message.date}}</small> 
-          <br>
-          {{message.text}}
+          <li class="list-group-item list-group-item-warning "style="max-width:500px;">
+            <b  style=" font-size: 12px;">{{message.user}} </b> 
+            <small style=" font-size: 11px;">{{message.date}}</small> 
+          <br>  
+          <div style=" font-size: 14px;  ">
+             {{message.text}}
+          </div>
+         
           </li>
   
           {% endfor %}
@@ -71,34 +81,40 @@
         </ul>
         
       </div>
-      
+     
+
+       
+       
       <form id = 'messageForm' action="" method="post" enctype="multipart/form-data" >
         {% csrf_token %}
-       
-        <div class="container">
-             <div class="row align-items-start ">
-              <div class="col">
-                <input type="hidden" id = 'myUsername' value='{{ user.username }}' />
-                {{message_form | crispy}}
+        <input type="hidden" id = 'myUsername' value='{{ user.username }}' />
+     
+        <div class="row " style='min-width:350px;'>
+            <div class="col-10 "style="padding-right: calc(var(--bs-gutter-x) * .0);">
+             
+                {{message_form.text}}
+
+                {% comment %} {{message_form | crispy}} {% endcomment %}
                 
               </div>
-              <div class="col">
-                <button type="submit" class = "btn btn-primary" >İlet</button>
+              <div class="col-2 px-0">
+                <button type="submit" class = "btn btn-primary " ><i class="fa fa-send"></i></button>
   
               </div>
                 
             </div>
-   
-             </div>  
+        
    
       </form>
+ <br>
+  
   {% endif %}<!--User authenticated == student is add lesson-->
- 
+</div>
 </div><!--COL-->
 
   <!--Content BODY-->
     <div class="col">
-      <div class="p-5 mb-4 bg-light rounded-3">
+      <div class="p-5 mb-4  rounded-3 alert alert-success">
         <div class="container-fluid py-5">
           <h3 class="fs-5">{{lesson.name}}</h3>
           <span><small>{{lesson.teacher}}</small></span>
@@ -117,7 +133,7 @@
       </div>
     </div>
   
- 
+    
     <!--User authenticated == student is add lesson-->
     {% if lesson not in lesson_join %}
     
@@ -126,7 +142,7 @@
     {% else %}<!--User authenticated == student is add lesson-->
     <div class="col-2">
       {% if attendances %}
-      <ul class="list-group">
+      <ul class="list-group" style="min-width :200px;max-width: 300px; max-height: 250px;">
    
         <button type="button" class="btn btn-outline-success" data-bs-toggle="modal"
         data-bs-target="#qrCodeModal">
@@ -152,10 +168,10 @@
 {% endif %}
 {% endif %}
         {% for attendance in attendances %}
-        <li class="list-group-item">
+        <li class="list-group-item" style=" font-size: 12px;">
           Baslangic : {{attendance.date}}
         </li>
-        <li class="list-group-item">
+        <li class="list-group-item" style=" font-size: 12px;">
           Kapanis : {{attendance.date2}}
         </li>
         {% endfor %}
@@ -165,7 +181,7 @@
       
       {% if request.user.is_staff %}
       <button type="button" class="btn btn-warning" data-bs-toggle="modal"
-        data-bs-target="#exampleModal">
+        data-bs-target="#exampleModal" style="min-width :200px;max-width: 300px; max-height: 250px;">
         Yoklama Aktif Et
       </button>
       {% endif %}
@@ -177,18 +193,18 @@
 
 
       <br>
-      <h5>Tum Ogrenciler</h5>
-      <div class="overflow-auto p-3 mb-3 mb-md-0 me-md-3 bg-light" style="max-width: 500px; max-height: 250px;">
+      <h6>Tum Ogrenciler</h6>
+      <div class="overflow-auto " style="min-width :200px;max-width: 300px; max-height: 250px;">
 
       <ol class="list-group list-group-numbered">
         {% if lesson.students.all %}
         {% for student in lesson.students.all %}
 
         <li class="list-group-item d-flex justify-content-between
-          align-items-start">
-          <div class="ms-2 me-auto">
+          align-items-start" style=" font-size: 12px;">
+          <div class="ms-2 me-auto " style=" font-size: 12px;">
 
-            <div class="fw-bold">{{student.username}}</div>
+            <div class="fw-bold" >{{student.username}}</div>
             {{student.last_name}}
           </div>
 
@@ -322,7 +338,9 @@
 
 
 
+<script>
 
+</script>
 
 <!--WEBSOCKETS JAVASCRIPT ################################################################-->
 <!--Websocket websocket/reconnecting-->
@@ -339,7 +357,7 @@
   var msgInput = $("#id_text")
   var chatHolder=$("#chat-items")
   var user = $("#myUsername").val()
-
+  var auth_user = {{user}}
   //websocket start 
   var wsStart = 'ws://'
   if(loc.protocol == 'https:' ){
@@ -353,19 +371,23 @@
   socket.onmessage = function(e){
     console.log("message-lesson.html",e);
     var chatDataMsg = JSON.parse(e.data);
-   
-    //chatHolder.append("<li>"+chatDataMsg.message+ " username: " +chatDataMsg.username+"</li>")
-    chatHolder.append(
-      "<li class='list-group-item'>"+ 
+    var now = new Date(Date.now());
+         chatHolder.append(
+      "<li class='list-group-item list-group-item-success ' style='max-width:500px;'>"+
+      "<b  style='font-size: 12px;'>"+
       chatDataMsg.username+
-      "<small>"+
-      chatDataMsg.date+
-      "</small> <br>"+
+      "</b>  <br>"+
+      "<div style=' font-size: 14px;'>"+
       chatDataMsg.message+
-      "</li>")
+      "</div>"+
+      "</li>");
   }
+  
   socket.onopen= function(e){
     console.log("open-lesson.html",e);
+    console.log("user",user)
+
+
     formData.submit(function(event){
       event.preventDefault()
       var msgText = msgInput.val()

@@ -1,4 +1,6 @@
 
+from tkinter.ttk import Style
+from turtle import width
 from django import forms
 
 from .models import Announcement, Attendance, Lesson, Message
@@ -15,6 +17,12 @@ class AttendanceForm(forms.ModelForm):
 
 
 class MessageForm(forms.ModelForm):
+    text = forms.CharField(label=False,widget=forms.Textarea(attrs={
+        'class': 'form-control',
+        'placeholder':'Mesajiniz',
+        'style':'min-width:200px;max-width:280px;max-height:37px;'
+        
+    }))
     class Meta:
         model = Message
         fields = ["text"]
