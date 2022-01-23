@@ -1,3 +1,4 @@
+import asyncio
 import json
 from marshal import dumps
 from webbrowser import get
@@ -89,6 +90,22 @@ class LessonConsumers(AsyncConsumer):
 
                     }
             )  
+        if loaded_dict_data.get('command')=="closed":
+            await self.delete_online_user()
+            count = await self.count_online_users()
+            myResponse = {
+                    'count': count,
+                    'command':'onlineusers',
+                
+            }
+            await self.channel_layer.group_send(
+                    self.chat_room,
+                    {
+                        "type": "online_users",
+                        "text":json.dumps(myResponse),
+
+                    }
+            )  
         if(loaded_dict_data.get('command') == "msg"):
             msg = loaded_dict_data.get('message')
             print(loaded_dict_data)
@@ -158,7 +175,20 @@ class LessonConsumers(AsyncConsumer):
     async def websocket_disconnect(self,event):
         print("disconnected - consumers.py" ,event)
         await self.delete_online_user()
-        
+        count = await self.count_online_users()
+        myResponse = {
+                    'count': count,
+                    'command':'onlineusers',
+                
+            }
+        await self.channel_layer.group_send(
+                    self.chat_room,
+                    {
+                        "type": "online_users",
+                        "text":json.dumps(myResponse),
+
+                    }
+            )  
         # await self.channel_layer.group_discard(
         #     self.chat_room,
         #     self.channel_name
