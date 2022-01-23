@@ -29,11 +29,18 @@ grid-template-rows: auto 1fr auto;
       <div class="col-3 " style="margin-right:30px;min-width :300px;max-width: 300px;">
 
         <h6>Aktif Ogreciler</h6>
+        
+          <span class="badge rounded-pill bg-success onlineusers"></span>
+          <div class="spinner-grow spinner-grow-sm text-success" role="status">
+            <span class="visually-hidden">Loading...</span>
+          </div>
            <!-- ONLINE STUDENTS -->
         
            <div class="overflow-auto " style="min-width :300px;max-width: 300px; max-height: 250px;">
        
         <ol class="list-group list-group-numbered "  style=" font-size: 12px; width: 11rem;">
+
+         
           <li class="list-group-item d-flex justify-content-between
             align-items-start list-group-item-warning ">
             <div class="ms-2 me-auto">
@@ -356,7 +363,7 @@ grid-template-rows: auto 1fr auto;
   var msgInput = $("#id_text")
   var chatHolder=$("#chat-items")
   var user = $("#myUsername").val()
-
+  var onlinecount = document.getElementsByClassName('onlineusers')[0];
   //websocket start 
   var wsStart = 'ws://'
   if(loc.protocol == 'https:' ){
@@ -370,8 +377,9 @@ grid-template-rows: auto 1fr auto;
   socket.onmessage = function(e){
     console.log("message-lesson.html",e);
     var chatDataMsg = JSON.parse(e.data);
- 
-         chatHolder.append(
+    
+      if(chatDataMsg.command == "msg"){
+      chatHolder.append(
       "<li class='list-group-item list-group-item-success ' style='max-width:500px;'>"+
       "<b  style='font-size: 12px;'>"+
       chatDataMsg.username+
@@ -380,25 +388,36 @@ grid-template-rows: auto 1fr auto;
       chatDataMsg.message+
       "</div>"+
       "</li>");
-  
+      }
+      if(chatDataMsg.command == "onlineusers"){
+        onlinecount.innerHTML = chatDataMsg.count  + ' People'
+      
+        console.log(chatDataMsg.count)
+      }
   }
-  
+  // Listen for messages
+  socket.addEventListener('message', function (event) {
+  console.log('Message from server ', event.data);
+  });
+  formData.submit(function(event){
+    event.preventDefault()
+    var msgText = msgInput.val()
+    //chatHolder.append("<li>"+msgText+ " username: " +user+"</li>")
+    var finalData = {
+      'message':msgText,
+      'command':'msg'
+    }
+    socket.send(JSON.stringify(finalData))
+    //msgInput.val('')
+    formData[0].reset()
+  })
+
   socket.onopen= function(e){
     console.log("open-   lesson.html",e);
-   
-    
-
-    formData.submit(function(event){
-      event.preventDefault()
-      var msgText = msgInput.val()
-      //chatHolder.append("<li>"+msgText+ " username: " +user+"</li>")
-      var finalData = {
-        'message':msgText
-      }
-      socket.send(JSON.stringify(finalData))
-      //msgInput.val('')
-      formData[0].reset()
-    })
+    connect = {
+      "command":"connected"
+    }
+    socket.send(JSON.stringify(connect))
   }
   socket.onerror= function(e){
     console.log("error-lesson.html",e);

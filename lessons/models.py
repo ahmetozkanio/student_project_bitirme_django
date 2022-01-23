@@ -70,5 +70,11 @@ class Message(models.Model):
 class OnlineUsers(models.Model):
     user = models.ForeignKey(User,on_delete=models.CASCADE)
     lesson = models.ForeignKey(Lesson,on_delete=models.CASCADE)
+
+    def get_objects(self,lesson):
+        users = OnlineUsers.objects.all().filter(lesson = lesson)
+        
+        return users
+
     def __str__(self):
         return self.user.username

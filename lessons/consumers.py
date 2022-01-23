@@ -1,13 +1,12 @@
-import asyncio
-from itertools import count
 import json
+from marshal import dumps
 from webbrowser import get
 from django.contrib.auth.models import User
 from channels.consumer import AsyncConsumer
 from channels.db import database_sync_to_async
-
+from django.core import serializers
 from .models import Lesson,Message, OnlineUsers
-
+from asgiref.sync import sync_to_async
 class LessonConsumers(AsyncConsumer):
 
     async def websocket_connect(self, event):
@@ -24,10 +23,10 @@ class LessonConsumers(AsyncConsumer):
 
 
         #online users
-        self.onlineusers = await self.get_online_users(lesson_obj.id)
+        # self.onlineusers = await self.get_online_users(lesson_obj.id)
        
         # for onusers in self.onlineusers:
-        #     print(onusers)
+     
         
 
 
@@ -39,6 +38,8 @@ class LessonConsumers(AsyncConsumer):
             chat_room,
             self.channel_name
         )
+
+
         await self.send({
             "type":"websocket.accept"
         })
@@ -56,55 +57,71 @@ class LessonConsumers(AsyncConsumer):
 
     async def websocket_receive(self, event):
         print("receive-consumers.py ",event)
-        #receive-consumers.py  {'type': 'websocket.receive', 'text': '{"message":"asdas"}'}
-     
-        # online users
-        # self.onlineusers = await self.get_online_users()
-        count = await self.count_online_users()
-        print(count)
-        # await self.channel_layer.group_send(
-        #        self.chat_room,
-        #        {
-        #            "type": "online_users",
-        #            "command":'onlineusers',
-        #            "count": count,
-        #        }
-        #    )
-      
-       
-       
-        front_text =event.get('text',None)
-        if front_text is not None:
-           loaded_dict_data = json.loads(front_text)
-           msg = loaded_dict_data.get('message')
-          
-           user = self.scope['user']
-           username = 'default_username'
-           if user.is_authenticated:
-               username = user.username
-           myResponse = {
-               'message':msg,#brodcast edilen mesaj
-               'username':username
-           }
-           await self.create_chat_message(msg,self.lesson_obj,self.user)
+
+        front_send_text =event.get('text',None)
+        loaded_dict_data = json.loads(front_send_text)
         
-           # brodcast message , yayin yapar mesaji
-           await self.channel_layer.group_send(
-               self.chat_room,
-               {
-                   "type": "chat_message",
-                   "text":json.dumps(myResponse),
-                   'command':"msg"
-                   
-               }
-           )
+        
+        
+        # online users
+        if(loaded_dict_data.get('command') == "connected"):
+            count = await self.count_online_users()
+            # online = await database_sync_to_async(self.get_online_users())
+            # apps = await sync_to_async(list)(OnlineUsers.objects.all())
+            # for app in  apps:
+             
+            #    await print(app)
+         
+            # onlineusers={
+            #     'username':online,
+                
+            # }
+            myResponse = {
+                    'count': count,
+                    'command':'onlineusers',
+                
+            }
+            await self.channel_layer.group_send(
+                    self.chat_room,
+                    {
+                        "type": "online_users",
+                        "text":json.dumps(myResponse),
+
+                    }
+            )  
+        if(loaded_dict_data.get('command') == "msg"):
+            msg = loaded_dict_data.get('message')
+            print(loaded_dict_data)
+            user = self.scope['user']
+            username = 'default_username'
+            if user.is_authenticated:
+                username = user.username
+            myResponse = {
+                'message':msg,#brodcast edilen mesaj
+                'username':username,
+                'command':'msg'
+            }
+            await self.create_chat_message(msg,self.lesson_obj,self.user)
+            
+            # brodcast message , yayin yapar mesaji
+            await self.channel_layer.group_send(
+                self.chat_room,
+                {
+                    "type": "chat_message",
+                    "text":json.dumps(myResponse),
+
+                }
+            )
+        
+      
 
     async def chat_message(self,event):
-        print('message',event)
+        print('messagess chat_message',event)
         # mesaj verisi
         await self.send({
             "type":"websocket.send",
-            "text":event['text']
+            "text":event['text'],
+         
         })
     @database_sync_to_async
     def get_lesson(self,lesson_id):
@@ -117,12 +134,17 @@ class LessonConsumers(AsyncConsumer):
         print('online_users -- consumers',event)
         await self.send({
             "type":"websocket.send",
-            "text":event['count']
+            "text":event['text'], 
         })
-    
+
     @database_sync_to_async
-    def get_online_users(self,id):
-        return OnlineUsers.objects.all().filter(lesson__id=id)
+    def get_online_users(self):
+        users= OnlineUsers.objects.all()#.filter(lesson =self.lesson_obj)
+        
+        if users != None:
+            return users
+        else:
+            return None           
     @database_sync_to_async
     def count_online_users(self):
         return OnlineUsers.objects.count()
