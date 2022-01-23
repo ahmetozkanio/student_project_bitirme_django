@@ -19,12 +19,10 @@ class LessonConsumers(AsyncConsumer):
       
         lesson_obj = await self.get_lesson(lesson_id_url) 
         self.lesson_obj = lesson_obj
-        online =await self.create_online_user()
-        print(online)
+        
+      
 
 
-        #online users
-        # self.onlineusers = await self.get_online_users(lesson_obj.id)
        
         # for onusers in self.onlineusers:
      
@@ -66,20 +64,15 @@ class LessonConsumers(AsyncConsumer):
         
         # online users
         if(loaded_dict_data.get('command') == "connected"):
+            await self.create_online_user()
             count = await self.count_online_users()
-            # online = await database_sync_to_async(self.get_online_users())
-            # apps = await sync_to_async(list)(OnlineUsers.objects.all())
-            # for app in  apps:
-             
-            #    await print(app)
-         
-            # onlineusers={
-            #     'username':online,
-                
-            # }
+             #online users
+            onlineusers = await self.get_online_users()
+            print(onlineusers)
             myResponse = {
                     'count': count,
                     'command':'onlineusers',
+                    'onlineusers':onlineusers
                 
             }
             await self.channel_layer.group_send(
@@ -90,22 +83,22 @@ class LessonConsumers(AsyncConsumer):
 
                     }
             )  
-        if loaded_dict_data.get('command')=="closed":
-            await self.delete_online_user()
-            count = await self.count_online_users()
-            myResponse = {
-                    'count': count,
-                    'command':'onlineusers',
+        # if loaded_dict_data.get('command')=="closed":
+        #     await self.delete_online_user()
+        #     count = await self.count_online_users()
+        #     myResponse = {
+        #             'count': count,
+        #             'command':'onlineusers',
                 
-            }
-            await self.channel_layer.group_send(
-                    self.chat_room,
-                    {
-                        "type": "online_users",
-                        "text":json.dumps(myResponse),
+        #     }
+        #     await self.channel_layer.group_send(
+        #             self.chat_room,
+        #             {
+        #                 "type": "online_users",
+        #                 "text":json.dumps(myResponse),
 
-                    }
-            )  
+        #             }
+        #     )  
         if(loaded_dict_data.get('command') == "msg"):
             msg = loaded_dict_data.get('message')
             print(loaded_dict_data)
@@ -156,12 +149,16 @@ class LessonConsumers(AsyncConsumer):
 
     @database_sync_to_async
     def get_online_users(self):
-        users= OnlineUsers.objects.all()#.filter(lesson =self.lesson_obj)
-        
-        if users != None:
-            return users
-        else:
-            return None           
+        self.online_user_list = []
+        users= OnlineUsers.objects.all().filter(lesson =self.lesson_obj)
+        for user in users:
+            self.online_user_list.append(user.user.username)
+        return self.online_user_list
+
+
+
+
+
     @database_sync_to_async
     def count_online_users(self):
         return OnlineUsers.objects.count()
@@ -176,9 +173,11 @@ class LessonConsumers(AsyncConsumer):
         print("disconnected - consumers.py" ,event)
         await self.delete_online_user()
         count = await self.count_online_users()
+        onlineusers = await self.get_online_users()
         myResponse = {
                     'count': count,
                     'command':'onlineusers',
+                    'onlineusers':onlineusers
                 
             }
         await self.channel_layer.group_send(
