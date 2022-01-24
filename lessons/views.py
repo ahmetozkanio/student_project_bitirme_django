@@ -6,18 +6,27 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib import messages
 from accounts.views import logout
-from lessons.models import Announcement, Attendance, Lesson, Message
+from lessons.models import Announcement, Attendance, Lesson, LessonFiles, Message
 from django.contrib.auth.models import User
-from lessons.forms import AnnouncementForm, AnnouncementUpdateForm, AttendanceForm, LessonForm, MessageForm
+from lessons.forms import AnnouncementForm, AnnouncementUpdateForm, AttendanceForm, LessonFilesForm, LessonForm, MessageForm
 from student.settings import ALLOWED_HOSTS
-
-
+from django.views.generic import ListView
+import json
 
 # Create your views here.
+class FileList(ListView):
+    model = LessonFiles
+    template_name = 'lessons/lesson.html'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        
+        return context
+    
 
 def lesson_list(request):
     current_user = request.user
+   
     lessons = Lesson.objects.all().order_by('-date')
     if request.user.is_authenticated:
         lesson_join = current_user.lesson_joined.all()
@@ -31,9 +40,13 @@ def lesson_list(request):
 
 @login_required(login_url='login')
 def lesson_detail(request,lesson_id):
+    
     current_user = request.user
+    allowed_host = ALLOWED_HOSTS[1]
+
     lessons = Lesson.objects.all().order_by('-date')
     lesson = Lesson.objects.get(id = lesson_id)
+    
     attendances = Attendance.objects.all().filter(lesson = lesson_id, avaliable = True)
     att_remove_last = Attendance.objects.last()
     attendance_remove_avaliable_last= att_remove_last
@@ -43,7 +56,14 @@ def lesson_detail(request,lesson_id):
     message_form = MessageForm(request.POST or None)
     message_text = Message.objects.all().filter(lesson = lesson_id)
    
-    
+    files = LessonFiles.objects.all().filter(lesson = lesson_id)
+    fileForm = LessonFilesForm(request.POST or None, request.FILES or None)
+  
+    if fileForm.is_valid():
+        file = fileForm.save(commit = False)
+        file.lesson = lesson
+        file.save()
+        return HttpResponseRedirect(reverse("lesson_detail", kwargs={'lesson_id': lesson_id}))
 
     if message_form.is_valid():
         message = message_form.save(commit=False)
@@ -74,9 +94,13 @@ def lesson_detail(request,lesson_id):
     else:
         lesson_join = lessons
     context = {
+
         'current_user':current_user,
+        'allowed_host':allowed_host,
         'lesson':lesson,
         'lesson_join':lesson_join,
+        'lesson_files':files,
+        'lesson_files_form':fileForm,
         'attendances':attendances,
         'attendance_form':attendance_form,
         'attendance_remove_avaliable_last':attendance_remove_avaliable_last,

@@ -20,7 +20,7 @@ class Lesson(models.Model):
     students = models.ManyToManyField(User, blank=True,related_name='lesson_joined')
     date = models.DateTimeField(auto_now=True)
     avaliable = models.BooleanField(default =True)
-    
+
     def __str__(self):
         return self.name
 
@@ -66,15 +66,21 @@ class Message(models.Model):
     def __str__(self):
         return self.user.username
     
-    
+class LessonFiles(models.Model):
+    lesson = models.ForeignKey(Lesson,on_delete=models.CASCADE)
+    title = models.CharField(max_length=255)
+    file = models.FileField(upload_to='lessons/lesson/%Y/%m/%d/')
+    date = models.DateTimeField(auto_now=True)
+    avaliable = models.BooleanField(default=True)
+    def __str__(self):
+        return self.title
+
 class OnlineUsers(models.Model):
     user = models.ForeignKey(User,on_delete=models.CASCADE)
     lesson = models.ForeignKey(Lesson,on_delete=models.CASCADE)
 
     def get_objects(self,lesson):
         users = OnlineUsers.objects.all().filter(lesson = lesson)
-        
         return users
-
     def __str__(self):
         return self.user.username

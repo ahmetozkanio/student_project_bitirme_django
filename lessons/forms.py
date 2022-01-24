@@ -3,10 +3,23 @@ from tkinter.ttk import Style
 from turtle import width
 from django import forms
 
-from .models import Announcement, Attendance, Lesson, Message
+from .models import Announcement, Attendance, Lesson, LessonFiles, Message
 
 
-
+class LessonFilesForm(forms.ModelForm):
+    title = forms.CharField( label='Belge Basligi',widget = forms.TextInput(attrs={
+        'class': 'form-control',
+        'placeholder': 'Belge Basligi'
+    }))
+    file = forms.FileField( label='Dosya Sec',widget = forms.ClearableFileInput(attrs={
+        'class': 'form-control',
+        'placeholder': 'Sec',
+       
+    }))
+    avaliable = forms.BooleanField(initial=True,required=False, label='Yayinlansin')
+    class Meta:
+        model = LessonFiles
+        fields = ["title","file",'avaliable']
 
 class AttendanceForm(forms.ModelForm):
 
@@ -17,7 +30,7 @@ class AttendanceForm(forms.ModelForm):
 
 
 class MessageForm(forms.ModelForm):
-    text = forms.CharField(label=False,widget=forms.Textarea(attrs={
+    text = forms.CharField(label=False,widget=forms.TextInput(attrs={
         'class': 'form-control',
         'placeholder':'Mesajiniz',
         'style':'min-width:200px;max-width:280px;max-height:37px;'

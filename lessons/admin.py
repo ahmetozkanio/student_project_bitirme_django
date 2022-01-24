@@ -1,5 +1,5 @@
 from django.contrib import admin
-from . models import Announcement, Attendance, Lesson, Message, OnlineUsers
+from . models import Announcement, Attendance, Lesson, LessonFiles, Message, OnlineUsers
 from import_export import resources
 from django.contrib import admin
 from django.contrib.auth.models import User
@@ -8,6 +8,7 @@ from django.contrib.auth.hashers import make_password
 # Register your models here.
 
 admin.site.register(OnlineUsers)
+admin.site.register(LessonFiles)
 
 @admin.register(Lesson)
 class LessonAdmin(admin.ModelAdmin):

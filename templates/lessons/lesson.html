@@ -1,6 +1,5 @@
 {% extends "base.html" %}
 {% load static %}
-
 {% block body %}
 
 {% load crispy_forms_tags %}
@@ -104,23 +103,90 @@ grid-template-rows: auto 1fr auto;
 
   <!--Content BODY-->
     <div class="col">
-      <div class="p-5 mb-4  rounded-3 alert alert-success">
-        <div class="container-fluid py-5">
-          <h3 class="fs-5">{{lesson.name}}</h3>
-          <span><small>{{lesson.teacher}}</small></span>
-          <p class="col-md-8 fs-7">{{lesson.description}}</p>
-          {% if lesson not in lesson_join %}
-          <form  action="{% url 'lesson_add' %}" method ="POST">
-            {% csrf_token %}
-            <input type="hidden" name ="user_id" value="{{user.id}}">
-            <input type="hidden" name ="lesson_id" value="{{lesson.id}}">		
-            <input type="submit" value ="Derse Kayit Ol"class="btn btn-outline-success">
-            
-          </form>
-          {% endif %}
+      <div class="row">
+        <div class="col-8">
+
+          <div class="p-5 mb-4  rounded-3 alert alert-success">
+            <div class="container-fluid py-5">
+              <h3 class="fs-5">{{lesson.name}}</h3>
+              <span><small>{{lesson.teacher}}</small></span>
+              <p class="col-md-8 fs-7">{{lesson.description}}</p>
+              {% if lesson not in lesson_join %}
+              <form  action="{% url 'lesson_add' %}" method ="POST">
+                {% csrf_token %}
+                <input type="hidden" name ="user_id" value="{{user.id}}">
+                <input type="hidden" name ="lesson_id" value="{{lesson.id}}">		
+                <input type="submit" value ="Derse Kayit Ol"class="btn btn-outline-success">
+                
+              </form>
+              {% endif %}
+              <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+              data-bs-target="#fileupload">
+              Belge Yukle
+            </button>
+            </div>
+            </div>
           
         </div>
+        <div class="col-4">
+          <div class="row">
+            <div class="col-10">
+              <form class="form-inline mr-auto">
+                {% csrf_token %}
+                <input
+                  class="form-control"
+                  type="text"
+                  placeholder="Search"
+                  aria-label="Search"
+                  name="keyword"
+                />
+            </div>
+            <div class="col-2">
+   
+              <button
+              class="btn btn-outline-secondary"
+              type="submit"
+            >
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+              <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"></path>
+              </svg>
+            </button>
+          </form>
+            </div>
+           </div>
+          
+          
+           <input id="search_here" class="form-control mb-3" placeholder="type here to search.." />
+          <div class="overflow-auto"style="max-height: 350px;" >
+            
+            <ol id="onlineusers" class="list-group list-group-numbered "  style=" font-size: 12px;">
+              
+              <div id="box">
+              {% for file  in lesson_files %}
+              <li class="list-group-item d-flex justify-content-between
+              align-items-start list-group-item-warning ">
+              <div class="ms-2 me-auto">
+                <div class="fw-bold"> <a href="{{file.file.url}}" target="_blank" rel="noopener noreferrer">{{ file.title }}</a>
+                </div>
+                {{file.date}}<br>
+      
+              </div>
+              <span class=""><a href="" style="color:red;"><i class="bi bi-trash"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+                <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+              </svg></i></a></span>
+            </li> 
+              {% endfor %}
+             
+          </div><!--Box-->
+             
+             
+            </ol>
+          </div>
+        </div>
       </div>
+    
+     
     </div>
   
     
@@ -130,7 +196,7 @@ grid-template-rows: auto 1fr auto;
 
   
     {% else %}<!--User authenticated == student is add lesson-->
-    <div class="col-3" style="margin-left:30px;">
+    <div class="col-2" style="margin-left:30px;">
       {% if attendances %}
       <ul class="list-group" style="min-width :200px;max-width: 300px; max-height: 250px;">
    
@@ -225,6 +291,37 @@ grid-template-rows: auto 1fr auto;
 
 <!-- Button trigger modal -->
 
+<!-- File Upload ################################ -->
+<div class="modal fade" id="fileupload" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Belge Yukle {{attendance_remove_avaliable_last.lesson}} </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        
+  
+
+    
+        <div class="container alert alert-success">
+          <form action="" method="post" enctype="multipart/form-data">
+              {% csrf_token %}
+              {{lesson_files_form}}
+      </div>
+      <div class="modal-footer">
+
+        <button type="submit" class="btn btn-success">Yukle</button>
+      </form>
+      </div>
+  
+  </div>
+    </div>
+  </div>
+</div>
+
+<!-- File Upload ################################ -->
+    
 <!-- QR Modal ################################ -->
 <div class="modal fade" id="qrCodeModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
@@ -440,7 +537,11 @@ grid-template-rows: auto 1fr auto;
 
 
 </script> 
+<!--File search-->
+<script>
 
+
+</script>
 
  {% endblock body %}
 
