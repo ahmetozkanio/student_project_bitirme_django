@@ -1,20 +1,86 @@
 {% extends "base.html" %}
 
-
+{% block style %}
+<style>
+  .not-visible{
+    display:none;
+  }
+</style>
+{% endblock style %}
 {% block body %}
 
 
 <br>
 <main class="px-3 text-center">
-    <h1>Merhaba Ahmet Ozkan Bitirme Projesi 1   </h1>
-    <p class="lead">Bu Proje Django ile yazilmistir.</p>
+    <h1>Merhaba Ahmet Özkan Bitirme Projesi 1   </h1>
+    <h2>Öğrenci Katılım Analizi Uygulaması</h2>
+    <p class="lead">Bu Proje Django ve Flutter ile yazilmistir.</p>
 
-    {% if request.user.is_staff  %} checked" {% endif %}
+    {% if request.user.is_staff  %} Ogretmen girisi {% endif %}
   </main>
+{% comment %} 
+<div id="spinner-box">
+  <div  class="spinner-border text-success" role="status"></div>
+</div>
+ 
+<div id="post-box"></div>
+  <p id="hello-world">
+
+ewe
+  </p>
+
+<script>
+  const helloWordlBox = document.getElementById('hello-world')
+  
+  const postBox = document.getElementById('post-box')
+  const spinnerBox = document.getElementById('spinner-box')
 
 
+  $.ajax({
+          type:'GET',
+          url:'/hello-world/',
+          success: function(response){
+              console.log('success',response.text);
+              helloWordlBox.textContent = response.text;
+          },
+          error: function(error){
+              console.log('error',error);
+          }
+        });
 
+        let visible = 3
 
+        $.ajax({
+          type:'GET',
+          url:`/data/${visible}/`,
+          success:function(response){
+            console.log('success data',response.data);
+           // const data =JSON.parse(response.data)
+          //console.log(data)
+          
+            const data = response.data
+            
+            setTimeout(()=>{
+                spinnerBox.classList.add('not-visible')
+                
+                console.log(data)
+                data.forEach(el =>{
+                  postBox.innerHTML +=  `
+                    ${el.name} -- <b>
+                      ${el.description}
 
+                    </b>
+                                
+                    <br>
+                  `
+                });
+            },100);
+           
+          },
+          error: function(error){
+            console.log('error',error);
+        }
+        });
+</script> {% endcomment %}
 
 {% endblock body %}

@@ -161,7 +161,7 @@ class LessonConsumers(AsyncConsumer):
 
     @database_sync_to_async
     def count_online_users(self):
-        return OnlineUsers.objects.count()
+        return OnlineUsers.objects.all().filter(lesson =self.lesson_obj).count()
     @database_sync_to_async
     def create_online_user(self):
         return OnlineUsers.objects.create(user=self.user,lesson =self.lesson_obj)

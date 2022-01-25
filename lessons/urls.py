@@ -19,5 +19,7 @@ urlpatterns = [
 
     path('lesson/<int:lesson_id>/attendance/<int:attendance_id>',views.attendance_add,name="attendance_add"),
 
+  
+
     # path("attendance/<int:attendance_id>/login",views.attendance_user_joined,name="attendance_user_joined"),
 ]

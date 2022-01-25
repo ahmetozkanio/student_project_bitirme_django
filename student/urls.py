@@ -17,7 +17,7 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
-
+from lessons.views import hello_world_view, load_post_data_view
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -28,5 +28,14 @@ urlpatterns = [
     path('api/',include("api.urls")),
     path('api-auth/', include('rest_framework.urls')),
     
+      #example ajac
+    path('hello-world/',hello_world_view,name="hello-world")
+    ,
+    path('data/<int:num_posts>',load_post_data_view,name="post-data")
+    ,
+    
+
+
+
 
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

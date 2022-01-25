@@ -11,17 +11,42 @@ from django.contrib.auth.models import User
 from lessons.forms import AnnouncementForm, AnnouncementUpdateForm, AttendanceForm, LessonFilesForm, LessonForm, MessageForm
 from student.settings import ALLOWED_HOSTS
 from django.views.generic import ListView
-import json
 
+
+from django.core import serializers
+from django.http import JsonResponse
 # Create your views here.
-class FileList(ListView):
-    model = LessonFiles
-    template_name = 'lessons/lesson.html'
+def hello_world_view(request):
+    return JsonResponse({"text":"hello world"})
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
+def load_post_data_view(request,num_posts):
+    visible = 3
+    upper = num_posts
+    lower = upper - visible
+    size = Lesson.objects.all().count()
+    qs = Lesson.objects.all().order_by('-date')
+    # data = serializers.serialize('json',qs)
+    data = []
+    for obj in qs:
+        item = {
+            'id':obj.id,
+            'name':obj.name,
+            'description':obj.description,
+            
+        }
+        data.append(item)
+    return JsonResponse({'data':data})
+
+
+
+# class FileList(ListView):
+#     model = LessonFiles
+#     template_name = 'lessons/lesson.html'
+
+#     def get_context_data(self, **kwargs):
+#         context = super().get_context_data(**kwargs)
         
-        return context
+#         return context
     
 
 def lesson_list(request):
