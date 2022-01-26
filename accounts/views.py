@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 from django.shortcuts import redirect, render
 
 
+
 from .forms import LoginForm, RegisterForm
 from lessons.models import Attendance
 # Create your views here.
@@ -83,7 +84,7 @@ def attendance_joined(request,lesson_id,attendance_id):
 
             if user is not None:
                 if user.is_active:
-                    # auth_login(request,user)
+                    auth_login(request,user)
                     user_id = user.id
                     # attendance_add(request,lesson_id,attendance_id)
                     return redirect('attendance_add' , lesson_id=lesson_id, attendance_id=attendance_id )

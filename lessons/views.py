@@ -1,3 +1,4 @@
+
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 
@@ -183,7 +184,7 @@ def attendance_add(request,lesson_id,attendance_id):
     try:
         user = lesson.students.get(id = user_id)
     except User.DoesNotExist:
-        user = None
+        user=None
 
     if user != None:
         if attendance.avaliable:
