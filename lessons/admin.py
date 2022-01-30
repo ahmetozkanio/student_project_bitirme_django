@@ -3,8 +3,9 @@ from . models import Announcement, Attendance, Lesson, LessonFiles, Message, Onl
 from import_export import resources
 from django.contrib import admin
 from django.contrib.auth.models import User
-from import_export.admin import ImportExportModelAdmin
+from import_export.admin import ImportExportModelAdmin,ImportMixin
 from django.contrib.auth.hashers import make_password
+
 # Register your models here.
 
 admin.site.register(OnlineUsers)
@@ -36,7 +37,7 @@ class AnnouncementAdmin(admin.ModelAdmin):
 
 
 
-# Register your models here.
+
 class UserResource(resources.ModelResource):
 
     def before_import_row(self,row,**kwargs):
@@ -58,9 +59,81 @@ class UserResource(resources.ModelResource):
             return None
 
 
-class UserAdmin(ImportExportModelAdmin):
+# class UserAdmin(ImportExportModelAdmin):
+#     resource_class = UserResource
+
+# admin.site.unregister(User)
+# admin.site.register(User, UserAdmin)
+
+
+
+
+
+
+
+
+# class UserResource(resources.ModelResource):
+
+#     class Meta:
+#         model = User
+
+
+
+from .forms import ImportForm,cConfirmImportForm
+# import module
+import openpyxl
+
+class CustomBookAdmin(ImportMixin, admin.ModelAdmin):
     resource_class = UserResource
+
+    def get_import_form(self):
+        return ImportForm
+
+    def get_confirm_import_form(self):       
+        return cConfirmImportForm
+
+    # def process_import(request, *args, **kwargs):
+    #     print(request)
+    #     return kwargs
+
+    def get_form_kwargs(self, form, *args, **kwargs):
+        #  pass on `author` to the kwargs for the custom confirm form
+        lessonUserAddList = []
+         
+        if isinstance(form, ImportForm):
+            if form.is_valid():
+                file = form.cleaned_data['import_file'] 
+                # load excel with its path
+                wrkbk = openpyxl.load_workbook(file)
+                sh = wrkbk.active
+                # iterate through excel and display data
+                for row in sh.iter_rows(max_col=1):
+                    for cell in row:
+                        lessonUserAddList.append(cell.value)
+                        print(cell.value, end=" ")
+
+                self.lesson = form.cleaned_data['lesson']
+                lessonUserAddList.remove('username')   
+
+                kwargs.update({'self.lesson': self.lesson.id})
+        elif isinstance(form,cConfirmImportForm):
+            lesson = form.cleaned_data['lesson']
+            lessonObj = Lesson.objects.get(name=lesson)
+            print(lessonObj)
+            for userList in lessonUserAddList:
+                user = User.objects.get(username= userList)
+                lessonObj.students.add(user)
+            kwargs.update({'id_lesson': lesson})
+        return kwargs
+
 
 
 admin.site.unregister(User)
-admin.site.register(User, UserAdmin)
+admin.site.register(User, CustomBookAdmin)
+
+
+
+
+
+  
+

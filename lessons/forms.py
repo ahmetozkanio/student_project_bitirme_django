@@ -1,10 +1,6 @@
-
-from tkinter.ttk import Style
-from turtle import width
 from django import forms
-
 from .models import Announcement, Attendance, Lesson, LessonFiles, Message
-
+from django.contrib.auth.models import User
 
 class LessonFilesForm(forms.ModelForm):
     title = forms.CharField( label='Belge Basligi',widget = forms.TextInput(attrs={
@@ -74,3 +70,23 @@ class LessonForm(forms.ModelForm):
         model = Lesson
         fields = ["name","image","description"]
 
+
+
+
+
+
+
+
+
+
+from import_export.forms import ImportForm,ConfirmImportForm
+
+class ImportForm(ImportForm):
+    lesson = forms.ModelChoiceField(
+        queryset=Lesson.objects.all(),
+        required=True)
+
+class cConfirmImportForm(ConfirmImportForm):
+    lesson = forms.ModelChoiceField(
+        queryset=Lesson.objects.all(),
+        required=True)
