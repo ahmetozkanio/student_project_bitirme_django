@@ -83,8 +83,12 @@ from .forms import ImportForm,cConfirmImportForm
 # import module
 import openpyxl
 
+from django.utils.encoding import force_str
+
 class CustomBookAdmin(ImportMixin, admin.ModelAdmin):
     resource_class = UserResource
+    
+    
 
     def get_import_form(self):
         return ImportForm
@@ -98,10 +102,11 @@ class CustomBookAdmin(ImportMixin, admin.ModelAdmin):
 
     def get_form_kwargs(self, form, *args, **kwargs):
         #  pass on `author` to the kwargs for the custom confirm form
-        lessonUserAddList = []
-         
+        self.lessonUserAddList = []
+
         if isinstance(form, ImportForm):
             if form.is_valid():
+
                 file = form.cleaned_data['import_file'] 
                 # load excel with its path
                 wrkbk = openpyxl.load_workbook(file)
@@ -109,23 +114,70 @@ class CustomBookAdmin(ImportMixin, admin.ModelAdmin):
                 # iterate through excel and display data
                 for row in sh.iter_rows(max_col=1):
                     for cell in row:
-                        lessonUserAddList.append(cell.value)
+                        self.lessonUserAddList.append(cell.value)
                         print(cell.value, end=" ")
 
                 self.lesson = form.cleaned_data['lesson']
-                lessonUserAddList.remove('username')   
+                self.lessonUserAddList.remove('username')   
 
                 kwargs.update({'self.lesson': self.lesson.id})
-        elif isinstance(form,cConfirmImportForm):
-            lesson = form.cleaned_data['lesson']
-            lessonObj = Lesson.objects.get(name=lesson)
-            print(lessonObj)
-            for userList in lessonUserAddList:
-                user = User.objects.get(username= userList)
-                lessonObj.students.add(user)
-            kwargs.update({'id_lesson': lesson})
+            
+        elif isinstance(form, cConfirmImportForm):
+            if form.is_valid():
+                print("confirm form ")
+                lesson = form.cleaned_data['lesson']
+                lessonObj = Lesson.objects.get(name=lesson)
+                print(lessonObj)
+                for userList in self.lessonUserAddList:
+                    user = User.objects.get(username= userList)
+                    lessonObj.students.add(user)
+                kwargs.update({'id_lesson': lesson})
         return kwargs
 
+    
+    def process_import(self, request, *args, **kwargs):
+        """
+        Perform the actual import action (after the user has confirmed the import)
+         """
+
+        form_type = self.get_confirm_import_form()
+        confirm_form = form_type(request.POST)
+        if confirm_form.is_valid():
+
+
+            print("CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC")
+            
+
+        
+          
+            print("CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC")
+            print(confirm_form)
+            lesson = confirm_form.cleaned_data['lessonn']
+            lessonObj = Lesson.objects.get(name=lesson)
+            print(lessonObj)
+
+            import_formats = self.get_import_formats()
+
+            input_format = import_formats[
+                int(confirm_form.cleaned_data['input_format'])
+            ]()
+            tmp_storage = self.get_tmp_storage_class()(name=confirm_form.cleaned_data['import_file_name'])
+            data = tmp_storage.read(input_format.get_read_mode())
+            if not input_format.is_binary() and self.from_encoding:
+                data = force_str(data, self.from_encoding)
+            dataset = input_format.create_dataset(data)
+            result = self.process_dataset(dataset, confirm_form, request, *args, **kwargs)
+            tmp_storage.remove()
+
+
+            for userList in self.lessonUserAddList:
+                user =  User.objects.get(username= userList)
+                lessonObj.students.add(user)
+
+
+
+            return self.process_result(result, request)
+          
 
 
 admin.site.unregister(User)
@@ -133,6 +185,7 @@ admin.site.register(User, CustomBookAdmin)
 
 
 
+            
 
 
   

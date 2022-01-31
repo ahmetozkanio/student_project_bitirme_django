@@ -87,6 +87,6 @@ class ImportForm(ImportForm):
         required=True)
 
 class cConfirmImportForm(ConfirmImportForm):
-    lesson = forms.ModelChoiceField(
+    lessonn = forms.ModelChoiceField(
         queryset=Lesson.objects.all(),
         required=True)
