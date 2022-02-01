@@ -222,6 +222,23 @@ def attendance_list(request):
         joined = current_user.attendance_joined.all()
     else:
         joined = attendances
+    
+    # search keyword icin
+    # bu input degerimizi keyword ile aliyoruz GET request ile
+    keyword = request.GET.get("keyword")
+    # arama yapildiysa filtreleme yapilir
+    if keyword:
+        print(keyword)
+        # keyword du title da varmi diye filter yapiyoruz veritabanindan 
+        attendances = Attendance.objects.filter(lesson=keyword)
+        # sadece aramalarda cikan yoklamalar gelecek
+        context = {
+        'attendances':attendances,
+        'lesson_join' :joined,
+        'lessons':lessons
+        }
+        return render(request, "attendances/attendances.html", context)
+
     context = {
         'attendances':attendances,
         'lesson_join' :joined,
@@ -268,6 +285,7 @@ def announcement_list(request):
     announcements = Announcement.objects.filter(lesson__in =lessons).order_by('-date')
     context = {
         'announcements':announcements,
+        
     }
     return render(request,'announcements/announcements.html',context)
 
@@ -276,6 +294,7 @@ def announcement_detail(request,announcement_id):
     announcement = Announcement.objects.get(id = announcement_id)
     context = {
         'announcement':announcement
+        
     }
     return render(request,'announcements/announcement.html',context)
 
