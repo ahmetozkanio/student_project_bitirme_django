@@ -114,7 +114,7 @@ Belli kullanıcı izinleri oluşturuldu. İzinler Öğrenci ve öğretmen olarak
 
 
 
-
+<!-- 
 # **ŞEKİLLER LİSTESİ**
 
 
@@ -229,7 +229,7 @@ Belli kullanıcı izinleri oluşturuldu. İzinler Öğrenci ve öğretmen olarak
 [Şekil 3.9-3 Etkinliğe katılanlar sayfası.	](#393)
 
 [Şekil 3.10-1 Duyuru sayfası ve detay içeriği.	](#3101)
-
+ -->
 
 
 <a name="1"></a>
