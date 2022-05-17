@@ -15,7 +15,7 @@ Belli kullanıcı izinleri oluşturuldu. İzinler Öğrenci ve öğretmen olarak
 
 [1.KULLANICI İZİNLERİ	](#1)
 
-[1.1.	Web Site İzinleri	](#11)
+- [1.1.	Web Site İzinleri	](#11)
 <!-- 
 [1.1.1.	Admin Yetkisi	](#4)
 
@@ -24,7 +24,7 @@ Belli kullanıcı izinleri oluşturuldu. İzinler Öğrenci ve öğretmen olarak
 [1.1.3.	Öğrenci Yetkisi	](#6)
 -->
 
-[1.2.	Mobil Uygulama İzinleri	](#12)
+- [1.2.	Mobil Uygulama İzinleri	](#12)
 
 <!-- 
 [1.2.1.	Öğretmen Yetkisi	](#8)
@@ -33,81 +33,81 @@ Belli kullanıcı izinleri oluşturuldu. İzinler Öğrenci ve öğretmen olarak
 
 [2.	WEB SİTE MODÜLLERİ	](#2)
 
-[2.1.	Ana Sayfa	](#21)
+- [2.1.	Ana Sayfa	](#21)
 
-[2.2.	Giriş	](#22)
+- [2.2.	Giriş	](#22)
 
-[2.3.	Kayıt	](#23)
+- [2.3.	Kayıt	](#23)
 
-[2.4.	Dersler	](#24)
+- [2.4.	Dersler	](#24)
 <!-- 
 [2.4.1.	Öğretmen	](#15)
 
 [2.4.2.	Öğrenci	](#16)
  -->
-[2.5.	Ders Detayı	](#25)
+- [2.5.	Ders Detayı	](#25)
 <!-- 
 [2.5.1.	Öğretmen	](#18)
 
 [2.5.2.	Öğrenci	](#19)
  -->
-[2.6.	Yoklamalar	](#26)
+- [2.6.	Yoklamalar	](#26)
 <!-- 
 [2.6.1.	Öğretmen	](#21)
 
 [2.6.2.	Öğrenci	](#22)
  -->
-[2.7.	Duyurular	](#27)
+- [2.7.	Duyurular	](#27)
 <!-- 
 [2.7.1.	Öğretmen	](#24)
 
 [2.7.2.	Öğrenci	](#25)
  -->
-[2.8.	Etkinlikler	](#28)
+- [2.8.	Etkinlikler	](#28)
 <!-- 
 [2.8.1.	Öğretmen	](#27)
 
 [2.8.2.	Öğrenci	](#28)
  -->
-[2.9.	Admin Paneli Yönetimi	](#29)
+- [2.9.	Admin Paneli Yönetimi	](#29)
 <!-- 
 [2.9.1.	Toplu Kayıt Ekleme	](#30) -->
 
 [3.	MOBİL UYGULAMA MODÜLLERİ	](#3)
 
-[3.1.	Kayıt Ekranı	](#31)
+- [3.1.	Kayıt Ekranı	](#31)
 
-[3.2.	Giriş Ekranı	](#32)
+- [3.2.	Giriş Ekranı	](#32)
 
-[3.3.	Ana Sayfa	](#33)
+- [3.3.	Ana Sayfa	](#33)
 
-[3.4.	Profil Sayfası	](#34)
+- [3.4.	Profil Sayfası	](#34)
 
-[3.5.	Derslerim Sayfası	](#35)
+- [3.5.	Derslerim Sayfası	](#35)
 <!-- 
 [3.5.1.	Öğretmen Yetkisi (Yeni Ders Ekleme)	](#37)
 
 [3.5.2.	Öğrenci Yetkisi	](#38)
  -->
-[3.6.	Ders Detay Sayfası	](#36)
+- [3.6.	Ders Detay Sayfası	](#36)
 <!-- 
 [3.6.1.	Öğrenci Yetkisi	](#40)
 
 [3.6.2.	Öğretmen Yetkisi	](#41)
  -->
-[3.7.	Tüm Dersler Sayfası (Ders Kaydı)	](#37)
+- [3.7.	Tüm Dersler Sayfası (Ders Kaydı)	](#37)
 
-[3.8.	Yoklamalar Sayfası	](#38)
+- [3.8.	Yoklamalar Sayfası	](#38)
 
-[3.8.1.	Qr Kod Okutma Ve Yoklama Alma Paneli	](#38)
+- - [3.8.1.	Qr Kod Okutma Ve Yoklama Alma Paneli	](#38)
 
-[3.8.2.	Qr Kod Okuma Ve Web Siteden Yoklama Alınması	](#38)
+- - [3.8.2.	Qr Kod Okuma Ve Web Siteden Yoklama Alınması	](#38)
 
-[3.9.	Etkinlikler Sayfası	](#39)
+- [3.9.	Etkinlikler Sayfası	](#39)
 
-[3.9.1.	Etkinlik Detayı	](#39)
+- - [3.9.1.	Etkinlik Detayı	](#39)
 
-[3.10.	Duyuru Sayfası	](#31)
+- [3.10.	Duyuru Sayfası	](#31)
 
 [4.	PROJE KAYNAK KOD	](#4)
 
