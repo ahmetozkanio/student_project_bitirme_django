@@ -118,117 +118,117 @@ Belli kullanıcı izinleri oluşturuldu. İzinler Öğrenci ve öğretmen olarak
 # **ŞEKİLLER LİSTESİ**
 
 
-[Şekil ‎2.1-1 Ana sayfa içeriği.	](#211)
+[Şekil 2.1-1 Ana sayfa içeriği.	](#211)
 
-[Şekil ‎2.1-2 Giriş yapılmış kullanıcı için navbar paneli.	](#212)
+[Şekil 2.1-2 Giriş yapılmış kullanıcı için navbar paneli.	](#212)
 
-[Şekil ‎2.2-1 Giriş ekranı.	](#221)
+[Şekil 2.2-1 Giriş ekranı.	](#221)
 
-[Şekil ‎2.3-1 Kayıt olma ekranı.	](#231)
+[Şekil 2.3-1 Kayıt olma ekranı.	](#231)
 
-[Şekil ‎2.4-1 Sisteme giriş yapılmamış dersler listesi.	](#241)
+[Şekil 2.4-1 Sisteme giriş yapılmamış dersler listesi.	](#241)
 
-[Şekil ‎2.4-2 Öğretmen girişi yapılmış olan dersler bölümü.	](#242)
+[Şekil 2.4-2 Öğretmen girişi yapılmış olan dersler bölümü.	](#242)
 
-[Şekil ‎2.4-3 Öğrenci girişi yapılmış dersler bölümü.	](#243)
+[Şekil 2.4-3 Öğrenci girişi yapılmış dersler bölümü.	](#243)
 
-[Şekil ‎2.5-1 Öğretmen girişi yapılmış ders detay sayfası.	](#251)
+[Şekil 2.5-1 Öğretmen girişi yapılmış ders detay sayfası.	](#251)
 
-[Şekil ‎2.5-2 Yoklama oluşturma paneli.	](#252)
+[Şekil 2.5-2 Yoklama oluşturma paneli.	](#252)
 
-[Şekil ‎2.5-3 Öğretmen girişi yapılmış ders detayı yoklama aktifliği.	](#253)
+[Şekil 2.5-3 Öğretmen girişi yapılmış ders detayı yoklama aktifliği.	](#253)
 
-[Şekil ‎2.5-4 Qr kod gösterim ekranı.	](#254)
+[Şekil 2.5-4 Qr kod gösterim ekranı.	](#254)
 
-[Şekil ‎2.5-5 Öğrenci girişi yapılmış ders detay sayfası.	](#255)
+[Şekil 2.5-5 Öğrenci girişi yapılmış ders detay sayfası.	](#255)
 
-[Şekil ‎2.6-1 Öğretmen girişi yapılmış yoklamalar sayfası.	](#261)
+[Şekil 2.6-1 Öğretmen girişi yapılmış yoklamalar sayfası.	](#261)
 
-[Şekil ‎2.6-2 Yoklama detayı öğretmen erişimi.	](#262)
+[Şekil 2.6-2 Yoklama detayı öğretmen erişimi.	](#262)
 
-[Şekil ‎2.6-3 Öğrenci girişi yapılmış yoklamalar sayfası.	](#263)
+[Şekil 2.6-3 Öğrenci girişi yapılmış yoklamalar sayfası.	](#263)
 
-[Şekil ‎2.7-1 Öğretmen girişi duyurular sayfası.](#271)
+[Şekil 2.7-1 Öğretmen girişi duyurular sayfası.](#271)
 
-[Şekil ‎2.7-2 Duyuru detay sayfası.	](#272)
+[Şekil 2.7-2 Duyuru detay sayfası.	](#272)
 
-[Şekil ‎2.7-3 Duyuru oluşturma sayfası.	](#273)
+[Şekil 2.7-3 Duyuru oluşturma sayfası.	](#273)
 
-[Şekil ‎2.7-4 Öğrenci girişi duyurular sayfası.	](#274)
+[Şekil 2.7-4 Öğrenci girişi duyurular sayfası.	](#274)
 
-[Şekil ‎2.8-1 Giriş yapılmamış etkinlikler sayfası.	](#281)
+[Şekil 2.8-1 Giriş yapılmamış etkinlikler sayfası.	](#281)
 
-[Şekil ‎2.8-2 Öğretmen girişi etkinlikler sayfası.	](#282)
+[Şekil 2.8-2 Öğretmen girişi etkinlikler sayfası.	](#282)
 
-[Şekil ‎2.8-3 Etkinlik oluşturma paneli.	](#283)
+[Şekil 2.8-3 Etkinlik oluşturma paneli.	](#283)
 
-[Şekil ‎2.8-4 Etkinlik detay sayfası.	](#284)
+[Şekil 2.8-4 Etkinlik detay sayfası.	](#284)
 
-[Şekil ‎2.8-5 Öğrenci girişi etkinlikler sayfası.	](#285)
+[Şekil 2.8-5 Öğrenci girişi etkinlikler sayfası.	](#285)
 
-[Şekil ‎2.9-1 Admin paneli görünümü ve toplu kayıt işlemleri.	](#291)
+[Şekil 2.9-1 Admin paneli görünümü ve toplu kayıt işlemleri.	](#291)
 
-[Şekil ‎2.9-2 Excel tablosu örnek.	](#292)
+[Şekil 2.9-2 Excel tablosu örnek.	](#292)
 
-[Şekil ‎2.9-3 Toplu kayıt eklemede içe aktarma görünümü.	](#293)
+[Şekil 2.9-3 Toplu kayıt eklemede içe aktarma görünümü.	](#293)
 
-[Şekil ‎3.1-1 Kayıt ekranı.  Şekil ‎3.1-2 Kayıt ekranı kontrolü.	](#311)
+[Şekil 3.1-1 Kayıt ekranı.  Şekil 3.1-2 Kayıt ekranı kontrolü.	](#311)
 
-[Şekil ‎3.1-3 Şifre kontrolü.	](#313)
+[Şekil 3.1-3 Şifre kontrolü.	](#313)
 
-[Şekil ‎3.2-1 Giriş ekranı.	](#321)
+[Şekil 3.2-1 Giriş ekranı.	](#321)
 
-[Şekil ‎3.3-1 Ana sayfa.	](#331)
+[Şekil 3.3-1 Ana sayfa.	](#331)
 
-[Şekil ‎3.4-1 Profil sayfası.	](#341)
+[Şekil 3.4-1 Profil sayfası.	](#341)
 
-[Şekil ‎3.5-1 Öğretmen ders oluşturma butonu.	](#351)
+[Şekil 3.5-1 Öğretmen ders oluşturma butonu.	](#351)
 
-[Şekil ‎3.5-2 Öğretmen dersler sayfası.	](#352)
+[Şekil 3.5-2 Öğretmen dersler sayfası.	](#352)
 
-[Şekil ‎3.5-3 Ders oluşturma sayfası.	](#353)
+[Şekil 3.5-3 Ders oluşturma sayfası.	](#353)
 
-[Şekil ‎3.5-4 Öğrenci derslerim sayfası.	](#354)
+[Şekil 3.5-4 Öğrenci derslerim sayfası.	](#354)
 
-[Şekil ‎3.6-1 Ders detay paneli.	](#361)
+[Şekil 3.6-1 Ders detay paneli.	](#361)
 
-[Şekil ‎3.6-2 Mesajlar paneli.	](#362)
+[Şekil 3.6-2 Mesajlar paneli.	](#362)
 
-[Şekil ‎3.6-3 Ders yoklamaları paneli.	](#363)
+[Şekil 3.6-3 Ders yoklamaları paneli.	](#363)
 
-[Şekil ‎3.6-4 Ders duyuruları paneli.	](#364)
+[Şekil 3.6-4 Ders duyuruları paneli.	](#364)
 
-[Şekil ‎3.6-5 Derse kayıtlı öğrenciler paneli.	](#365)
+[Şekil 3.6-5 Derse kayıtlı öğrenciler paneli.	](#365)
 
-[Şekil ‎3.6-6 Ders içi öğretmen yetkileri.	](#366)
+[Şekil 3.6-6 Ders içi öğretmen yetkileri.	](#366)
 
-[Şekil ‎3.6-7 Yoklama oluşturma ekranı.	](#367)
+[Şekil 3.6-7 Yoklama oluşturma ekranı.	](#367)
 
-[Şekil ‎3.6-8 Yoklama için tarih modülü.	](#368)
+[Şekil 3.6-8 Yoklama için tarih modülü.	](#368)
 
-[Şekil ‎3.6-9 Yoklama için saat modülü.	](#369)
+[Şekil 3.6-9 Yoklama için saat modülü.	](#369)
 
-[Şekil ‎3.6-10 Duyuru oluşturma ekranı.	](#3610)
+[Şekil 3.6-10 Duyuru oluşturma ekranı.	](#3610)
 
-[Şekil ‎3.7-1 Tüm dersler sayfası ve kayıt olma modülü.	](#371)
+[Şekil 3.7-1 Tüm dersler sayfası ve kayıt olma modülü.	](#371)
 
-[Şekil ‎3.8-1 Yoklamalar listesi ve qr kod okuyucu.	](#381)
+[Şekil 3.8-1 Yoklamalar listesi ve qr kod okuyucu.	](#381)
 
-[Şekil ‎3.8-2 Qr kod okuyucu ekran ile ilgili kontroller.	](#382)
+[Şekil 3.8-2 Qr kod okuyucu ekran ile ilgili kontroller.	](#382)
 
-[Şekil ‎3.8-3 Qr kod okuttuktan sonraki kontroller.	](#383)
+[Şekil 3.8-3 Qr kod okuttuktan sonraki kontroller.	](#383)
 
-[Şekil ‎3.8-6 Herhangi bir qr okuyucu ile yoklama alma işlemi.	](#386)
+[Şekil 3.8-6 Herhangi bir qr okuyucu ile yoklama alma işlemi.	](#386)
 
-[Şekil ‎3.8-8 Yoklama alımından sonra kullanıcıya geri dönüş mesajları.	40](#388)
+[Şekil 3.8-8 Yoklama alımından sonra kullanıcıya geri dönüş mesajları.	40](#388)
 
-[Şekil ‎3.9-1 Etkinlikler ve etkinlik oluşturma butonu.	](#391)
+[Şekil 3.9-1 Etkinlikler ve etkinlik oluşturma butonu.	](#391)
 
-[Şekil ‎3.9-2 Etkinlik detay sayfası.	](#392)
+[Şekil 3.9-2 Etkinlik detay sayfası.	](#392)
 
-[Şekil ‎3.9-3 Etkinliğe katılanlar sayfası.	](#393)
+[Şekil 3.9-3 Etkinliğe katılanlar sayfası.	](#393)
 
-[Şekil ‎3.10-1 Duyuru sayfası ve detay içeriği.	](#3101)
+[Şekil 3.10-1 Duyuru sayfası ve detay içeriği.	](#3101)
 
 
 
@@ -895,8 +895,10 @@ Giriş yapmış kullanıcın kayıtlı olduğu derslere ait duyurular listelenir
 
 <a name="4"></a>
 ## 4. Proje Kaynak Kod Dosyaları
+
 4.1. Web Django
 https://github.com/ahmetozkanio/student_project_bitirme_django
+
 4.2. Mobil Flutter
 https://github.com/ahmetozkanio/student_project_bitirme_flutter
 
