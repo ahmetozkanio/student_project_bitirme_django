@@ -99,13 +99,13 @@ Belli kullanıcı izinleri oluşturuldu. İzinler Öğrenci ve öğretmen olarak
 
 - [3.8.	Yoklamalar Sayfası	](#38)
 
-- - [3.8.1.	Qr Kod Okutma Ve Yoklama Alma Paneli	](#38)
+- - [3.8.1.	Qr Kod Okutma Ve Yoklama Alma Paneli	](#3811)
 
-- - [3.8.2.	Qr Kod Okuma Ve Web Siteden Yoklama Alınması	](#38)
+- - [3.8.2.	Qr Kod Okuma Ve Web Siteden Yoklama Alınması	](#3822)
 
 - [3.9.	Etkinlikler Sayfası	](#39)
 
-- - [3.9.1.	Etkinlik Detayı	](#39)
+- - [3.9.1.	Etkinlik Detayı	](#3911)
 
 - [3.10.	Duyuru Sayfası	](#31)
 
@@ -818,6 +818,7 @@ Giriş yapmış olan kullanıcı kayıtlı olduğu derslerin yoklamalarına eri�
 ![](app_images_md/image055.png)
 >  Şekil 3.8--1 Yoklamalar listesi ve qr kod okuyucu.
 
+<a name="3811"></a>
 ###### Qr Kod Okutma Ve Yoklama Alma Paneli
 
 Burada kullanıcı qr kod butonu ile birlikte qr paneli açılır. Temel özellikleri qr okuyup yoklamanızı otomatik alır. Herhangi bir dersin qr ı olabilir ve okutabilir. Tabi bunun kontrolleri uygulama içerisinde yapılmakta görsellerde de mevcut.
@@ -840,7 +841,7 @@ gösterilir.
 ![](app_images_md/image057.png)![](app_images_md/image058.png)![](app_images_md/image059.png)
 > Şekil 3.8--3 Qr kod okuttuktan sonraki kontroller.
 
-
+<a name="3822"></a>
 ###### Qr Kod Okuma Ve Web Siteden Yoklama Alınması
 
 Uygulama dışındaki herhangi bir qr kod uygulamasıyla okutulduğu zaman bizi giriş sayfasına yöneltiyor yani mobil uygulama olmadan da ilgili yoklama alınabiliyor.
@@ -869,7 +870,7 @@ Sistemdeki etkinlikler listelenir ve öğretmen etkinlik oluşturabilir.
 ![](app_images_md/image065.png)
 >  Şekil 3.9--1 Etkinlikler ve etkinlik oluşturma butonu.
 
-
+<a name="3911"></a>
 ###### Etkinlik Detayı
 
 Etkinlik içeriğine erişilebilir ve katılanlar gösterilir.
