@@ -4,7 +4,7 @@
 
 Projem öğrenci katılım analizi, kısaca bir öğrencinin ve öğretmenin derslerini takip edebileceği bir sistem. Web ve mobil olarak tasarlandı. Web tarafında django framework ve admin paneli kullanıldı. Ön yüz tarafta birçok modül kullanıldı bootstrap, css, html, jquery, websocket gibi ana başlıklardaki teknolojiler kullanıldı. Mobil tarafta ise flutter kullanıldı. Mobil taraftaki iletişim django rest framework ile api aracılığıyla sağlandı.
 
-Belli kullanıcı izinleri oluşturuldu. İzinler Öğrenci ve öğretmen olarak ikiye ayrılıyor. Ve bunun içindeki mantıksal yapı ise öğrenci sadece kayıtlı olduğu dersin modüllerine erişebilir. Öğretmen sadece kendi dersinin modüllerini günceller, siler oluşturur gibi kurallar var. Örneğin yoklamayı sadece o dersin hocası oluşturup içeriğini görebilir ve yoklamaya katılım ise sadece o derse kayıtlı öğrenciler tarafından alınabilir. Başka bir dersin öğrencisi qr kodu okuttuğunda o derse kayıtlı olmadığı için uyarı mesajıyla karşılar. Ayrıca belirtmek istediğim bir diğer husus url kısmındaki izinleri yani kullanıcı kayıtlı olmadığı dersin koduyla url‘ den dahi erişemez.
+Belli kullanıcı izinleri oluşturuldu. İzinler Öğrenci ve öğretmen olarak ikiye ayrılıyor. Ve bunun içindeki mantıksal yapı ise öğrenci sadece kayıtlı olduğu dersin modüllerine erişebilir. Öğretmen sadece kendi dersinin modüllerini günceller, siler oluşturur gibi kurallar var. Örneğin yoklamayı sadece o dersin hocası oluşturup içeriğini görebilir ve yoklamaya katılım ise sadece o derse kayıtlı öğrenciler tarafından alınabilir. Başka bir dersin öğrencisi qr kodu okuttuğunda o derse kayıtlı olmadığı için uyarı mesajıyla karşılar. Url kısmındaki izinleri yani kullanıcı kayıtlı olmadığı dersin koduyla url‘ den dahi erişemez.
 
 
 # **İÇİNDEKİLER**
